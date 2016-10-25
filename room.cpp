@@ -6,7 +6,13 @@ Room::Room(const string& name, const string& desc)
 	m_Desc = desc;
 }
 
-void Room::setDirect(Room* north, Room* east, Room* south, Room* west)
+Room Room::zero()
+{
+	Room room;
+	return room;
+}
+
+void Room::setDirect(const Room& north, const Room& east, const Room& south, const Room& west)
 {
 	direct.push_back(north);
 	direct.push_back(east);
@@ -34,6 +40,11 @@ void Room::lockUnlock()
 	{
 		locked = true;
 	}
+}
+
+bool Room::isLocked()
+{
+	return locked;
 }
 
 void Room::popRoom(Item* item)
