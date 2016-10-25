@@ -1,6 +1,5 @@
-#include<iostream>
-#include<string>
 #include<vector>
+#include "item.h"
 
 using namespace std;
 
@@ -14,14 +13,14 @@ public:
 	string GetName();
 	void lockUnlock();
 	bool locked = false;
-	void popRoom(string item);
+	void popRoom(Item* item);
 	void ground();
-	bool pick(string theChoice);
+	bool checkItem(string theChoice);
+	Item* takeItem(string theChoice);
 	vector<Room*> direct;
 
 private:
-
-	vector<string> m_InRoom;
+	vector<Item*> m_InRoom;
 	string m_Name;
 	string m_Desc;
 };

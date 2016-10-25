@@ -1,5 +1,3 @@
-#include<vector>
-#include<string>
 #include "player.h"
 
 using namespace std;

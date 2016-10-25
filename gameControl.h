@@ -11,5 +11,5 @@ public:
 	void loop(Map* theMap);
 
 private:
-	Player* m_pPlayer;
+
 };

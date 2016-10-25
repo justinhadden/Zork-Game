@@ -3,18 +3,33 @@
 Map::Map()
 {
 	Room* house = new Room("a House in a field", "You are in a field with a house in the middle of it.");
+	Item* key = new Item("KEY", "KEY", "An old key(key)");
+
 	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.");
+
 	Room* oldcabin = new Room("an Old Cabin", "You are in the forest next to and old cabin.");
-	oldcabin->popRoom("Key");
+	Item* gatekey = new Item("GATEKEY", "KEY", "The Gate Key(gatekey)");
+	
 	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.");
-	mountain->popRoom("Rock");
-	mountain->popRoom("Pickaxe");
+	Item* rock = new Item("ROCK", "ROCK", "A small rock(rock)");
+	Item* pickaxe = new Item("PICKAXE", "WEAPON", "A rusty pickaxe(pickaxe)");
+
 	Room* swamp = new Room("a Swamp", "You are in a nasty swamp surrounded by flies.");
-	swamp->popRoom("Mudball");
+	Item* mudball = new Item("MUDBALL", "MUDBALL", "A nasty ball of mud(mudball)");
+
 	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.");
+
 	Room* courtyard = new Room("a Courtyard", "You are in the courtyard of the castle");
-	courtyard->popRoom("Gold");
+	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
 	courtyard->lockUnlock();
+
+	house->popRoom(key);
+	oldcabin->popRoom(gatekey);
+	mountain->popRoom(rock);
+	mountain->popRoom(pickaxe);
+	swamp->popRoom(mudball);
+	courtyard->popRoom(gold);
+
 	house->setDirect(mountain, forest, 0, 0);
 	forest->setDirect(oldcabin, swamp, 0, house);
 	oldcabin->setDirect(0, castleGates, forest, mountain);
@@ -118,15 +133,21 @@ void Map::ground()
 void Map::pick()
 {
 	string choice;
-	cout << "Pick up which item?" << endl;
+	cout << "Pick up which item?: ";
 	cin >> choice;
 
+	for (int i = 0; i <= choice.length(); ++i)
+	{
+		choice[i] = toupper(choice[i]);
+	}
+
 	bool found;
-	found = m_pPlayerLoc->pick(choice);
+	found = m_pPlayerLoc->checkItem(choice);
 
 	if (found)
 	{
-		m_pPlayer->pick(choice);
+		Item* takeThis = m_pPlayerLoc->takeItem(choice);
+		m_pPlayer->pick(takeThis);
 	}
 }
 
@@ -136,10 +157,16 @@ void Map::drop()
 	cout << "Drop which item?: ";
 	cin >> dropThis;
 
-	bool found = m_pPlayer->dropInv(dropThis);
+	for (int i = 0; i <= dropThis.length(); ++i)
+	{
+		dropThis[i] = toupper(dropThis[i]);
+	}
+
+	bool found = m_pPlayer->checkItem(dropThis);
 	if (found)
 	{
-		m_pPlayerLoc->popRoom(dropThis);
+		Item* item = m_pPlayer->dropInv(dropThis);
+		m_pPlayerLoc->popRoom(item);
 	}
 }
 
@@ -150,19 +177,43 @@ void Map::playerInv()
 
 void Map::use()
 {
-	cout << "Use which item?" << endl;
+	cout << "Use which item?: ";
 	string useThis;
 	cin >> useThis;
 
-	bool haveItem = m_pPlayer->use(useThis);
-
-	if (useThis == "Key")
+	for (int i = 0; i <= useThis.length(); ++i)
 	{
-		if (m_pPlayerLoc->GetName() == "the Castle Gates" && m_pPlayerLoc->direct[0]->GetName() == "a Courtyard")
+		useThis[i] = toupper(useThis[i]);
+	}
+
+	bool haveItem = m_pPlayer->checkItem(useThis);
+
+	if (haveItem)
+	{
+		Item* item = m_pPlayer->getItem(useThis);
+		if (item->getType() == "KEY")
 		{
-			m_pPlayerLoc->direct[0]->lockUnlock();
-			cout << "You unlocked the gates with the key and may enter" << endl;
-			m_pPlayer->dropInv(useThis);
+			if (m_pPlayerLoc->GetName() == "the Castle Gates" && m_pPlayerLoc->direct[0]->GetName() == "a Courtyard")
+			{
+				if (item->getName() == "GATEKEY")
+				{
+					m_pPlayerLoc->direct[0]->lockUnlock();
+					cout << "You unlocked the gates with the key and may enter." << endl;
+					m_pPlayer->dropInv(useThis);
+				}
+				else
+				{
+					cout << "Wrong key." << endl;
+				}
+			}
+			else
+			{
+				cout << "Can't use that here." << endl;
+			}
+		}
+		else
+		{
+			cout << "Can't use that here." << endl;
 		}
 	}
 }

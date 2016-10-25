@@ -1,5 +1,3 @@
-#include<string>
-#include<vector>
 #include "room.h"
 
 using namespace std;
@@ -7,14 +5,15 @@ using namespace std;
 class Player
 {
 public:
-	Player(string name = "");
-	void pick(string theChoice);
+	Player(const string& name = "");
+	void pick(Item* takeThis);
 	void lookInv();
-	bool use(string useThis);
-	bool dropInv(string dropThis);
+	bool checkItem(string useThis);
+	Item* getItem(string getThis);
+	Item* dropInv(string dropThis);
 	string GetName();
 
 private:
-	vector<string> m_Inventory;
+	vector<Item*> m_Inventory;
 	string m_Name;
 };

@@ -36,14 +36,14 @@ void Room::lockUnlock()
 	}
 }
 
-void Room::popRoom(string item)
+void Room::popRoom(Item* item)
 {
 	m_InRoom.push_back(item);
 }
 
 void Room::ground()
 {
-	vector<string>::iterator iter;
+	vector<Item*>::iterator iter;
 	if (m_InRoom.begin() == m_InRoom.end())
 	{
 		cout << "Nothing here" << endl;
@@ -53,29 +53,48 @@ void Room::ground()
 		cout << "On the ground you see:" << endl;
 		for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
 		{
-			cout << *iter << endl;
+			cout << (*iter)->getDesc() << endl;
 		}
 	}
 }
 
-bool Room::pick(string theChoice)
+bool Room::checkItem(string theChoice)
 {
-	vector<string>::iterator iter;
-	bool found = true;
+	vector<Item*>::iterator iter;
+	bool found = false;
 
-	iter = find(m_InRoom.begin(), m_InRoom.end(), theChoice);
-
-	if (iter == m_InRoom.end())
+	for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
+	{
+		if ((*iter)->getName() == theChoice)
+		{	
+			found = true;
+			break;
+		}
+	}
+	if (!found)
 	{
 		cout << "That item isn't in here." << endl;
 		found = false;
 	}
-	else
-	{
-		m_InRoom.erase(iter);
-	}
 
 	return found;
+}
+
+Item * Room::takeItem(string theChoice)
+{
+	vector<Item*>::iterator iter;
+	Item* returnThis;
+	for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
+	{
+		if ((*iter)->getName() == theChoice)
+		{
+			returnThis = *iter;
+			m_InRoom.erase(iter);
+			break;
+		}
+	}
+
+	return returnThis;
 }
 
 void Room::look()
