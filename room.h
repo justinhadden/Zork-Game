@@ -7,12 +7,12 @@ class Room
 {
 public:
 	Room(const string& name = "", const string& desc = "");
-	static Room zero();
-	void setDirect(const Room& north, const Room& east, const Room& south, const Room& west);
+	void setDirect(Room* north, Room* east, Room* south, Room* west);
 	void look();
 	void GetDesc();
 	string GetName();
 	void lockUnlock();
+	bool isLocked();
 	void popRoom(Item* item);
 	void ground();
 	bool checkItem(string theChoice);

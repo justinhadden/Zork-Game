@@ -27,58 +27,58 @@ void GameControl::loop(Map* theMap)
 
 		if (theChoice == "HELP")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			info();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "N" || theChoice == "NORTH" || theChoice == "E" || theChoice == "EAST" ||
 			theChoice == "S" || theChoice == "SOUTH" || theChoice == "W" || theChoice == "WEST")
 		{
-			cout << "--------------------------------" << endl;
-			theMap->move(theChoice, theMap);
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
+			theMap->move(theChoice);
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "L" || theChoice == "LOOK")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			theMap->look();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "G" || theChoice == "GROUND")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			theMap->ground();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "P" || theChoice == "PICK")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			theMap->pick();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "I" || theChoice == "Inventory")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			theMap->playerInv();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "U" || theChoice == "USE")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			theMap->use();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice == "D" || theChoice == "DROP")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			theMap->drop();
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 		else if (theChoice != "QUIT")
 		{
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 			cout << "I do not recognize that command" << endl;
-			cout << "--------------------------------" << endl;
+			cout << "---------------------------------------" << endl;
 		}
 	}
 

@@ -6,13 +6,7 @@ Room::Room(const string& name, const string& desc)
 	m_Desc = desc;
 }
 
-Room Room::zero()
-{
-	Room room;
-	return room;
-}
-
-void Room::setDirect(const Room& north, const Room& east, const Room& south, const Room& west)
+void Room::setDirect(Room* north, Room* east, Room* south, Room* west)
 {
 	direct.push_back(north);
 	direct.push_back(east);

@@ -23,6 +23,9 @@ Map::Map()
 	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
 	courtyard->lockUnlock();
 
+	Room* castleWall = new Room("a Castle Wall", "You shouldn't be here.");
+	wall = castleWall;
+
 	house->popRoom(key);
 	oldcabin->popRoom(gatekey);
 	mountain->popRoom(rock);
@@ -32,10 +35,10 @@ Map::Map()
 
 	house->setDirect(mountain, forest, 0, 0);
 	forest->setDirect(oldcabin, swamp, 0, house);
-	oldcabin->setDirect(0, castleGates, forest, mountain);
+	oldcabin->setDirect(castleWall, castleGates, forest, mountain);
 	mountain->setDirect(0, oldcabin, house, 0);
 	swamp->setDirect(castleGates, 0, 0, forest);
-	castleGates->setDirect(courtyard, 0, swamp, oldcabin);
+	castleGates->setDirect(courtyard, castleWall, swamp, oldcabin);
 	courtyard->setDirect(0, 0, castleGates, 0);
 
 	string name;
@@ -50,7 +53,6 @@ Map::Map()
 
 Map::~Map()
 {
-
 }
 
 string Map::getName()
@@ -58,7 +60,7 @@ string Map::getName()
 	return m_pPlayer->GetName();
 }
 
-void Map::move(string theChoice, Map* theMap)
+void Map::move(string theChoice)
 {
 	if (theChoice == "N" || theChoice == "NORTH")
 	{
@@ -66,7 +68,11 @@ void Map::move(string theChoice, Map* theMap)
 		{
 			cout << "You can't go that way" << endl;
 		}
-		else if (m_pPlayerLoc->direct[0]->locked)
+		else if (m_pPlayerLoc->direct[0] == wall)
+		{
+			cout << "Can't go that way...  it's a wall." << endl;
+		}
+		else if (m_pPlayerLoc->direct[0]->isLocked())
 		{
 			cout << "The gates are locked" << endl;
 		}
@@ -83,6 +89,10 @@ void Map::move(string theChoice, Map* theMap)
 		{
 			cout << "You can't go that way" << endl;
 		}
+		else if (m_pPlayerLoc->direct[1] == wall)
+		{
+			cout << "Can't go that way...  it's a wall." << endl;
+		}
 		else
 		{
 			cout << "You walk east." << endl;
@@ -96,6 +106,10 @@ void Map::move(string theChoice, Map* theMap)
 		{
 			cout << "You can't go that way" << endl;
 		}
+		else if (m_pPlayerLoc->direct[2] == wall)
+		{
+			cout << "Can't go that way...  it's a wall." << endl;
+		}
 		else
 		{
 			cout << "You walk south." << endl;
@@ -108,6 +122,10 @@ void Map::move(string theChoice, Map* theMap)
 		if (m_pPlayerLoc->direct[3] == 0)
 		{
 			cout << "You can't go that way" << endl;
+		}
+		else if (m_pPlayerLoc->direct[3] == wall)
+		{
+			cout << "Can't go that way...  it's a wall." << endl;
 		}
 		else
 		{
