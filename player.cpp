@@ -19,7 +19,7 @@ void Player::lookInv()
 	}
 	else
 	{
-		cout << m_Name << "'s inventory:" << endl;
+		cout << "Your inventory:" << endl;
 		for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 		{
 			cout << (*iter)->getDesc() << endl;

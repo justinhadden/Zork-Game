@@ -8,7 +8,7 @@ public:
 	Map();
 	~Map();
 
-	void move(string theChoice);
+	void move(string theChoice, Map* theMap);
 	void look();
 	void ground();
 	void pick();
@@ -16,7 +16,6 @@ public:
 	void playerInv();
 	void use();
 	string getName();
-	Room* wall;
 
 private:
 	Player* m_pPlayer;

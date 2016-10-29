@@ -1,139 +1,121 @@
 #include "room.h"
+#include <algorithm>
 
 Room::Room(const string& name, const string& desc)
+    : name_(name)
+    , desc_(desc)
+    , locked_(false)
 {
-	m_Name = name;
-	m_Desc = desc;
 }
 
-void Room::setDirect(Room* north, Room* east, Room* south, Room* west)
+void Room::setAdjRooms(Room *north, Room *east, Room *south, Room *west)
 {
-	direct.push_back(north);
-	direct.push_back(east);
-	direct.push_back(south);
-	direct.push_back(west);
+	adjRooms_[0] = north;
+	adjRooms_[1] = east;
+	adjRooms_[2] = south;
+	adjRooms_[3] = west;
 }
 
-void Room::GetDesc()
+void Room::addItem(Item *item)
 {
-	cout << m_Desc << endl;
+    items_.push_back(item);
+}
+
+bool Room::hasItem(string name)
+{
+    bool ret = false;
+    auto iter = items_.begin();
+    while (iter != items_.end())
+    {
+        if ((*iter)->getName() == name)
+        {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
+}
+
+Item * Room::getItem(string name)
+{
+    Item *ret = nullptr;
+    auto iter = items_.begin();
+    while (iter != items_.end())
+    {
+        if ((*iter)->getName() == name)
+        {
+            ret = *iter;
+            items_.erase(iter);
+            break;
+        }
+    }
+    return ret;
+}
+
+string Room::GetDesc()
+{
+    return desc_;
 }
 
 string Room::GetName()
 {
-	return m_Name;
+	return name_;
 }
 
 void Room::lockUnlock()
 {
-	if (locked)
-	{
-		locked = false;
-	}
-	else
-	{
-		locked = true;
-	}
-}
-
-bool Room::isLocked()
-{
-	return locked;
-}
-
-void Room::popRoom(Item* item)
-{
-	m_InRoom.push_back(item);
+    locked_ ? false : true;
 }
 
 void Room::ground()
 {
 	vector<Item*>::iterator iter;
-	if (m_InRoom.begin() == m_InRoom.end())
+	if (items_.begin() == items_.end())
 	{
 		cout << "Nothing here" << endl;
 	}
 	else
 	{
 		cout << "On the ground you see:" << endl;
-		for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
+		for (iter = items_.begin(); iter != items_.end(); ++iter)
 		{
 			cout << (*iter)->getDesc() << endl;
 		}
 	}
 }
 
-bool Room::checkItem(string theChoice)
-{
-	vector<Item*>::iterator iter;
-	bool found = false;
-
-	for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
-	{
-		if ((*iter)->getName() == theChoice)
-		{	
-			found = true;
-			break;
-		}
-	}
-	if (!found)
-	{
-		cout << "That item isn't in here." << endl;
-		found = false;
-	}
-
-	return found;
-}
-
-Item * Room::takeItem(string theChoice)
-{
-	vector<Item*>::iterator iter;
-	Item* returnThis;
-	for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
-	{
-		if ((*iter)->getName() == theChoice)
-		{
-			returnThis = *iter;
-			m_InRoom.erase(iter);
-			break;
-		}
-	}
-
-	return returnThis;
-}
-
 void Room::look()
 {
-	if (direct[0] == 0)
+	if (!adjRooms_[0])
 	{
 		cout << "Nothing north" << endl;
 	}
 	else
 	{
-		cout << "To the north you see " << direct[0]->m_Name << endl;
+		cout << "To the north you see " << adjRooms_[0]->GetName() << endl;
 	}
-	if (direct[1] == 0)
+	if (!adjRooms_[1])
 	{
 		cout << "Nothing east" << endl;
 	}
 	else
 	{
-		cout << "To the east you see " << direct[1]->m_Name << endl;
+		cout << "To the east you see " << adjRooms_[1]->GetName() << endl;
 	}
-	if (direct[2] == 0)
+	if (!adjRooms_[2])
 	{
 		cout << "Nothing south" << endl;
 	}
 	else
 	{
-		cout << "To the south you see " << direct[2]->m_Name << endl;
+		cout << "To the south you see " << adjRooms_[2]->GetName() << endl;
 	}
-	if (direct[3] == 0)
+	if (!adjRooms_[3])
 	{
 		cout << "Nothing west" << endl;
 	}
 	else
 	{
-		cout << "To the west you see " << direct[3]->m_Name << endl;
+		cout << "To the west you see " << adjRooms_[3]->GetName() << endl;
 	}
 }
