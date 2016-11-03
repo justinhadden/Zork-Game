@@ -13,7 +13,7 @@ public:
 	// Get the rooms adjacent to this room
 	auto getAdjRooms() const
 	{
-		return adjRooms_;
+		return m_AdjRooms;
 	}
 
 	// Add an item to the room

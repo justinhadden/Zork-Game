@@ -62,57 +62,57 @@ void Map::move(string theChoice)
 {
 	if (theChoice == "N" || theChoice == "NORTH")
 	{
-		if (m_pPlayerLoc->getAdjRooms()[0] == 0)
+		if (m_pPlayerLoc->getAdjRooms(0) == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
-		else if (m_pPlayerLoc->getAdjRooms()[0]->isLocked())
+		else if (m_pPlayerLoc->getAdjRooms(0)->isLocked())
 		{
 			cout << "The gates are locked" << endl;
 		}
 		else
 		{
 			cout << "You walk north." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[0];
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(0);
 			m_pPlayerLoc->GetDesc();
 		}
 	}
 	else if (theChoice == "E" || theChoice == "EAST")
 	{
-		if (m_pPlayerLoc->getAdjRooms()[1] == 0)
+		if (m_pPlayerLoc->getAdjRooms(1) == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
 		else
 		{
 			cout << "You walk east." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[1];
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(1);
 			m_pPlayerLoc->GetDesc();
 		}
 	}
 	else if (theChoice == "S" || theChoice == "SOUTH")
 	{
-		if (m_pPlayerLoc->getAdjRooms()[2] == 0)
+		if (m_pPlayerLoc->getAdjRooms(2) == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
 		else
 		{
 			cout << "You walk south." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[2];
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(2);
 			m_pPlayerLoc->GetDesc();
 		}
 	}
 	else if (theChoice == "W" || theChoice == "WEST")
 	{
-		if (m_pPlayerLoc->getAdjRooms()[3] == 0)
+		if (m_pPlayerLoc->getAdjRooms(3) == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
 		else
 		{
 			cout << "You walk west." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[3];
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(3);
 			m_pPlayerLoc->GetDesc();
 		}
 	}
@@ -125,9 +125,9 @@ void Map::look()
 	m_pPlayerLoc->look();
 }
 
-void Map::ground()
+void Map::inspect()
 {
-	m_pPlayerLoc->ground();
+	m_pPlayerLoc->inspect();
 }
 
 void Map::pick()

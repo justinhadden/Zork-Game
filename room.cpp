@@ -36,43 +36,43 @@ void Room::lockUnlock()
 	}
 }
 
-void Room::popRoom(string item)
+void Room::addItem(Item* item)
 {
-	m_InRoom.push_back(item);
+	items.push_back(item);
 }
 
 void Room::ground()
 {
-	vector<string>::iterator iter;
-	if (m_InRoom.begin() == m_InRoom.end())
+	vector<Item*>::iterator iter;
+	if (items.begin() == items.end())
 	{
 		cout << "Nothing here" << endl;
 	}
 	else
 	{
 		cout << "On the ground you see:" << endl;
-		for (iter = m_InRoom.begin(); iter != m_InRoom.end(); ++iter)
+		for (iter = items.begin(); iter != items.end(); ++iter)
 		{
 			cout << *iter << endl;
 		}
 	}
 }
 
-bool Room::getItem(string theChoice)
+bool Room::hasItem(string theChoice)
 {
-	vector<items>::iterator iter;
+	vector<Item*>::iterator iter;
 	bool found = true;
 
 	iter = find(items.begin(), items.end(), theChoice);
 
-	if (iter == m_InRoom.end())
+	if (iter == items.end())
 	{
 		cout << "That item isn't in here." << endl;
 		found = false;
 	}
 	else
 	{
-		m_InRoom.erase(iter);
+		items.erase(iter);
 	}
 
 	return found;
@@ -80,36 +80,36 @@ bool Room::getItem(string theChoice)
 
 void Room::look()
 {
-	if (direct[0] == 0)
+	if (m_AdjRooms[0] == 0)
 	{
 		cout << "Nothing north" << endl;
 	}
 	else
 	{
-		cout << "To the north you see " << direct[0]->m_Name << endl;
+		cout << "To the north you see " << m_AdjRooms[0]->m_Name << endl;
 	}
-	if (direct[1] == 0)
+	if (m_AdjRooms[1] == 0)
 	{
 		cout << "Nothing east" << endl;
 	}
 	else
 	{
-		cout << "To the east you see " << direct[1]->m_Name << endl;
+		cout << "To the east you see " << m_AdjRooms[1]->m_Name << endl;
 	}
-	if (direct[2] == 0)
+	if (m_AdjRooms[2] == 0)
 	{
 		cout << "Nothing south" << endl;
 	}
 	else
 	{
-		cout << "To the south you see " << direct[2]->m_Name << endl;
+		cout << "To the south you see " << m_AdjRooms[2]->m_Name << endl;
 	}
-	if (direct[3] == 0)
+	if (m_AdjRooms[3] == 0)
 	{
 		cout << "Nothing west" << endl;
 	}
 	else
 	{
-		cout << "To the west you see " << direct[3]->m_Name << endl;
+		cout << "To the west you see " << m_AdjRooms[3]->m_Name << endl;
 	}
 }

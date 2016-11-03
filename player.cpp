@@ -1,3 +1,5 @@
+#include "player.h"
+
 Player::Player(string name) :
 	m_Name(name)
 {}
