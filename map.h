@@ -1,14 +1,12 @@
 #include "player.h"
 
-using namespace std;
-
 class Map
 {
 public:
 	Map();
 	~Map();
 
-	void move(string theChoice, Map* theMap);
+	void move(string theChoice);
 	void look();
 	void ground();
 	void pick();

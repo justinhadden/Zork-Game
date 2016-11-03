@@ -5,9 +5,9 @@ void GameControl::info()
 	cout << "'Help(h)' - gives you your options" << endl;
 	cout << "'Look(l)' - lets you look around" << endl;
 	cout << "'North(n)/East(e)/South(s)/West(w)' - move around" << endl;
-	cout << "'Ground(g)' - looks for items on the ground" << endl;
+	cout << "'Inspect(i)' - looks for items on the ground" << endl;
 	cout << "'Pick(p)' - picks up an item from the ground" << endl;
-	cout << "'Inventory(i)' - checks your inventory" << endl;
+	cout << "'Character Inventory(c)' - checks your inventory" << endl;
 	cout << "'Use(u)' - uses an item" << endl;
 	cout << "'Quit' - quits the game" << endl;
 }
@@ -35,7 +35,7 @@ void GameControl::loop(Map* theMap)
 			theChoice == "S" || theChoice == "SOUTH" || theChoice == "W" || theChoice == "WEST")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->move(theChoice, theMap);
+			theMap->move(theChoice);
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "L" || theChoice == "LOOK")
@@ -44,7 +44,7 @@ void GameControl::loop(Map* theMap)
 			theMap->look();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "G" || theChoice == "GROUND")
+		else if (theChoice == "I" || theChoice == "INSPECT")
 		{
 			cout << "--------------------------------" << endl;
 			theMap->ground();
@@ -56,7 +56,7 @@ void GameControl::loop(Map* theMap)
 			theMap->pick();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "I" || theChoice == "Inventory")
+		else if (theChoice == "C" || theChoice == "INVENTORY" || theChoice == "CHARACTER")
 		{
 			cout << "--------------------------------" << endl;
 			theMap->playerInv();

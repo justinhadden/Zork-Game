@@ -9,7 +9,7 @@ Map::Map()
 
 	Room* oldcabin = new Room("an Old Cabin", "You are in the forest next to and old cabin.");
 	Item* gatekey = new Item("GATEKEY", "KEY", "The Gate Key(gatekey)");
-	
+
 	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.");
 	Item* rock = new Item("ROCK", "ROCK", "A small rock(rock)");
 	Item* pickaxe = new Item("PICKAXE", "WEAPON", "A rusty pickaxe(pickaxe)");
@@ -58,7 +58,7 @@ string Map::getName()
 	return m_pPlayer->GetName();
 }
 
-void Map::move(string theChoice, Map* theMap)
+void Map::move(string theChoice)
 {
 	if (theChoice == "N" || theChoice == "NORTH")
 	{

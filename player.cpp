@@ -1,18 +1,16 @@
-#include "player.h"
-
-Player::Player(const string& name):
+Player::Player(string name) :
 	m_Name(name)
 {}
 
-void Player::pick(Item* takeThis)
+void Player::pick(string theChoice)
 {
-	m_Inventory.push_back(takeThis);
-	cout << "Picked up " << takeThis->getDesc() << endl;
+	m_Inventory.push_back(theChoice);
+	cout << "Picked up " << theChoice << endl;
 }
 
 void Player::lookInv()
 {
-	vector<Item*>::iterator iter;
+	vector<string>::iterator iter;
 	if (m_Inventory.begin() == m_Inventory.end())
 	{
 		cout << "Nothing in your inventory" << endl;
@@ -22,67 +20,40 @@ void Player::lookInv()
 		cout << "Your inventory:" << endl;
 		for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 		{
-			cout << (*iter)->getDesc() << endl;
+			cout << *iter << endl;
 		}
 	}
 }
 
-bool Player::checkItem(string useThis)
+bool Player::use(string useThis)
 {
-	vector<Item*>::iterator iter;
-	bool haveItem = false;
-	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+	vector<string>::iterator iter = find(m_Inventory.begin(), m_Inventory.end(), useThis);
+	bool haveItem = true;
+	if (iter == m_Inventory.end())
 	{
-		if ((*iter)->getName() == useThis)
-		{
-			haveItem = true;
-			break;
-		}
-	}
-	if (!haveItem)
-	{
-		cout << "You don't have that item" << endl;
+		cout << "You don't have that item." << endl;
 		haveItem = false;
 	}
 
 	return haveItem;
 }
 
-Item * Player::getItem(string getThis)
+bool Player::dropInv(string dropThis)
 {
-	vector<Item*>::iterator iter;
-	Item* item;
-
-	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+	vector<string>::iterator iter = find(m_Inventory.begin(), m_Inventory.end(), dropThis);
+	bool found = true;
+	if (iter == m_Inventory.end())
 	{
-		if ((*iter)->getName() == getThis)
-		{
-			item = *iter;
-			break;
-		}
+		cout << "You don't have that Item." << endl;
+		found = false;
+	}
+	else
+	{
+		m_Inventory.erase(iter);
+		cout << dropThis << " removed from inventory." << endl;
 	}
 
-	return item;
-}
-
-Item* Player::dropInv(string dropThis)
-{
-	vector<Item*>::iterator iter;
-	Item* item;
-
-	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
-	{
-		if ((*iter)->getName() == dropThis)
-		{
-			item = *iter;
-			cout << (*iter)->getName() << " removed from inventory." << endl;
-			m_Inventory.erase(iter);
-			
-			break;
-		}
-	}
-
-	return item;
+	return found;
 }
 
 string Player::GetName()
