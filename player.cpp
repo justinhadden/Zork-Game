@@ -30,18 +30,19 @@ void Player::lookInv()
 bool Player::hasItem(string theChoice)
 {
 	vector<Item*>::iterator iter;
-	bool found = true;
+	bool found = false;
 
-	iter = find(m_Inventory.begin(), m_Inventory.end(), theChoice);
-
-	if (iter == m_Inventory.end())
+	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 	{
-		cout << "That item isn't in here." << endl;
-		found = false;
+		if ((*iter)->getName() == theChoice)
+		{
+			found = true;
+		}
 	}
-	else
+
+	if (!found)
 	{
-		m_Inventory.erase(iter);
+		cout << "You do not have that item." << endl;
 	}
 
 	return found;
@@ -49,34 +50,53 @@ bool Player::hasItem(string theChoice)
 
 bool Player::use(string useThis)
 {
-	vector<Item*>::iterator iter = find(m_Inventory.begin(), m_Inventory.end(), useThis);
-	bool haveItem = true;
-	if (iter == m_Inventory.end())
+	vector<Item*>::iterator iter;
+	bool found = true;
+
+	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 	{
-		cout << "You don't have that item." << endl;
-		haveItem = false;
+		if ((*iter)->getName() == useThis)
+		{
+			found = true;
+		}
 	}
 
-	return haveItem;
+	if (!found)
+	{
+		cout << "You don't have that item." << endl;
+	}
+
+	return found;
 }
 
 Item* Player::dropInv(string dropThis)
 {
-	vector<Item*>::iterator iter = find(m_Inventory.begin(), m_Inventory.end(), dropThis);
+	vector<Item*>::iterator iter;
+	Item* item;
 
-	Item* item = *iter;
-
-	m_Inventory.erase(iter);
-	cout << dropThis << " removed from inventory." << endl;
-
+	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+	{
+		if ((*iter)->getName() == dropThis)
+		{
+			item = *iter;
+			m_Inventory.erase(iter);
+			cout << dropThis << " removed from inventory." << endl;
+		}
+	}
 	return item;
 }
 
 Item* Player::getItem(string getThis)
 {
-	vector<Item*>::iterator iter = find(m_Inventory.begin(), m_Inventory.end(), getThis);
-
-	Item* item = *iter;
+	vector<Item*>::iterator iter;
+	Item* item;
+	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+	{
+		if ((*iter)->getName() == getThis)
+		{
+			item = *iter;
+		}
+	}
 
 	return item;
 }

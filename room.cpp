@@ -1,9 +1,10 @@
 #include "room.h"
 
-Room::Room(const string& name, const string& desc)
+Room::Room(const string& name, const string& desc, bool isLocked)
 {
 	m_Name = name;
 	m_Desc = desc;
+	locked = isLocked;
 }
 
 void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)
@@ -54,7 +55,7 @@ Room* Room::getAdjRooms(int index)
 void Room::inspect()
 {
 	vector<Item*>::iterator iter;
-	if (items.begin() == items.end())
+	if (items.empty())
 	{
 		cout << "Nothing here" << endl;
 	}
@@ -71,18 +72,19 @@ void Room::inspect()
 bool Room::hasItem(string theChoice)
 {
 	vector<Item*>::iterator iter;
-	bool found = true;
+	bool found = false;
 
-	iter = find(items.begin(), items.end(), theChoice);
+	for (iter = items.begin(); iter != items.end(); ++iter)
+	{
+		if ((*iter)->getName() == theChoice)
+		{
+			found = true;
+		}
+	}
 
-	if (iter == items.end())
+	if (!found)
 	{
 		cout << "That item isn't in here." << endl;
-		found = false;
-	}
-	else
-	{
-		items.erase(iter);
 	}
 
 	return found;
@@ -106,4 +108,20 @@ void Room::look()
 	{
 		cout << "To the west you see " << m_AdjRooms[3]->m_Name << endl;
 	}
+}
+
+Item* Room::getItem(string name)
+{
+	vector<Item*>::iterator iter;
+	Item* item;
+
+	for (iter = items.begin(); iter != items.end(); ++iter)
+	{
+		if ((*iter)->getName() == name)
+		{
+			item = *iter;
+		}
+	}
+
+	return item;
 }

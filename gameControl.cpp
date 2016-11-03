@@ -20,7 +20,7 @@ void GameControl::loop(Map* theMap)
 	{
 		cin >> theChoice;
 
-		for (int i = 0; i <= theChoice.length(); ++i)
+		for (int i = 0; i < theChoice.length(); ++i)
 		{
 			theChoice[i] = toupper(theChoice[i]);
 		}
