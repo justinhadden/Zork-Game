@@ -90,35 +90,19 @@ bool Room::hasItem(string theChoice)
 
 void Room::look()
 {
-	if (m_AdjRooms[0] == 0)
-	{
-		cout << "Nothing north" << endl;
-	}
-	else
+	if (m_AdjRooms[0] != 0)
 	{
 		cout << "To the north you see " << m_AdjRooms[0]->m_Name << endl;
 	}
-	if (m_AdjRooms[1] == 0)
-	{
-		cout << "Nothing east" << endl;
-	}
-	else
+	if (m_AdjRooms[1] != 0)
 	{
 		cout << "To the east you see " << m_AdjRooms[1]->m_Name << endl;
 	}
-	if (m_AdjRooms[2] == 0)
-	{
-		cout << "Nothing south" << endl;
-	}
-	else
+	if (m_AdjRooms[2] != 0)
 	{
 		cout << "To the south you see " << m_AdjRooms[2]->m_Name << endl;
 	}
-	if (m_AdjRooms[3] == 0)
-	{
-		cout << "Nothing west" << endl;
-	}
-	else
+	if (m_AdjRooms[3] != 0)
 	{
 		cout << "To the west you see " << m_AdjRooms[3]->m_Name << endl;
 	}
