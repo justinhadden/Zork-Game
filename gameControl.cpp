@@ -4,6 +4,7 @@ void GameControl::info()
 {
 	cout << "'Help(h)' - gives you your options" << endl;
 	cout << "'Look(l)' - lets you look around" << endl;
+	cout << "'WhereAmI(wai)' - gets a discription of where you are" << endl;
 	cout << "'North(n)/East(e)/South(s)/West(w)' - move around" << endl;
 	cout << "'Inspect(i)' - looks for items on the ground" << endl;
 	cout << "'Pick(p)' - picks up an item from the ground" << endl;
@@ -73,6 +74,11 @@ void GameControl::loop(Map* theMap)
 			cout << "--------------------------------" << endl;
 			theMap->drop();
 			cout << "--------------------------------" << endl;
+		}
+		else if (theChoice == "WAI" || theChoice == "WHEREAMI")
+		{
+			cout << "--------------------------------" << endl;
+			theMap->getPlayerLoc()->GetDesc();
 		}
 		else if (theChoice != "QUIT")
 		{

@@ -7,7 +7,7 @@ Player::Player(string name) :
 void Player::pick(Item* theChoice)
 {
 	m_Inventory.push_back(theChoice);
-	cout << "Picked up " << theChoice << endl;
+	cout << "Picked up " << theChoice->getDesc() << endl;
 }
 
 void Player::lookInv()
@@ -22,7 +22,7 @@ void Player::lookInv()
 		cout << "Your inventory:" << endl;
 		for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 		{
-			cout << *iter << endl;
+			cout << (*iter)->getDesc() << endl;
 		}
 	}
 }
@@ -69,7 +69,7 @@ bool Player::use(string useThis)
 	return found;
 }
 
-Item* Player::dropInv(string dropThis)
+Item* Player::dropItem(string dropThis)
 {
 	vector<Item*>::iterator iter;
 	Item* item;
@@ -80,7 +80,8 @@ Item* Player::dropInv(string dropThis)
 		{
 			item = *iter;
 			m_Inventory.erase(iter);
-			cout << dropThis << " removed from inventory." << endl;
+			cout << item->getDesc() << " removed from inventory." << endl;
+			break;
 		}
 	}
 	return item;
@@ -104,4 +105,9 @@ Item* Player::getItem(string getThis)
 string Player::GetName()
 {
 	return m_Name;
+}
+
+void Player::stashThis(Item* item)
+{
+	m_Inventory.push_back(item);
 }

@@ -1,11 +1,10 @@
 #include "room.h"
 
-Room::Room(const string& name, const string& desc, bool isLocked)
-{
-	m_Name = name;
-	m_Desc = desc;
-	locked = isLocked;
-}
+Room::Room(const string& name, const string& desc, bool isLocked, string lockType)
+	: m_Name(name)
+	, m_Desc(desc)
+	, locked(isLocked)
+{}
 
 void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)
 {
@@ -42,6 +41,11 @@ bool Room::isLocked()
 	return locked;
 }
 
+string Room::getLockType()
+{
+	return m_lockType;
+}
+
 void Room::addItem(Item* item)
 {
 	items.push_back(item);
@@ -64,7 +68,7 @@ void Room::inspect()
 		cout << "On the ground you see:" << endl;
 		for (iter = items.begin(); iter != items.end(); ++iter)
 		{
-			cout << *iter << endl;
+			cout << (*iter)->getDesc() << endl;
 		}
 	}
 }
@@ -120,8 +124,11 @@ Item* Room::getItem(string name)
 		if ((*iter)->getName() == name)
 		{
 			item = *iter;
+			items.erase(iter);
+			break;
 		}
 	}
+
 
 	return item;
 }

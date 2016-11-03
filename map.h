@@ -13,6 +13,7 @@ public:
 	void drop();
 	void playerInv();
 	void use();
+	Room* getPlayerLoc();
 	string getName();
 
 private:

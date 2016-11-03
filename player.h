@@ -8,9 +8,11 @@ public:
 	void lookInv();
 	bool use(string useThis);
 	bool hasItem(string haveThis);
-	Item* dropInv(string dropThis);
+	Item* dropItem(string dropThis);
 	Item* getItem(string getThis);
 	string GetName();
+
+	void stashThis(Item* item);
 
 private:
 	vector<Item*> m_Inventory;
