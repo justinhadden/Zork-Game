@@ -7,7 +7,9 @@ public:
 	void pick(Item* takeThis);
 	void lookInv();
 	bool use(string useThis);
-	bool dropInv(string dropThis);
+	bool hasItem(string haveThis);
+	Item* dropInv(string dropThis);
+	Item* getItem(string getThis);
 	string GetName();
 
 private:

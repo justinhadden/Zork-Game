@@ -47,7 +47,7 @@ void GameControl::loop(Map* theMap)
 		else if (theChoice == "I" || theChoice == "INSPECT")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->ground();
+			theMap->inspect();
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "P" || theChoice == "PICK")

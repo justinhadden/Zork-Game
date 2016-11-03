@@ -7,34 +7,17 @@ class Room
 {
 public:
 	Room(const string& name = "", const string& desc = "");
-
-	// Set the rooms adjacent to this room
 	void setAdjRooms(Room *north, Room *east, Room *south, Room *west);
-	// Get the rooms adjacent to this room
-	auto getAdjRooms() const
-	{
-		return m_AdjRooms;
-	}
-
-	// Add an item to the room
+	Room* getAdjRooms(int index);
 	void addItem(Item *item);
-	// Check if the room has an item
 	bool hasItem(string name);
-	// Get an item from the room
 	Item *getItem(string name);
-
-	// Check if the room is locked
-	bool isLocked() const
-	{
-		return locked;
-	}
-
+	bool isLocked();
 	void look();
 	void GetDesc();
 	string GetName();
 	void lockUnlock();
-
-	void ground();
+	void inspect();
 
 private:
 	Room* m_AdjRooms[4];

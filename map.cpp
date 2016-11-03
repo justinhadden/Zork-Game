@@ -162,7 +162,7 @@ void Map::drop()
 		dropThis[i] = toupper(dropThis[i]);
 	}
 
-	bool found = m_pPlayer->checkItem(dropThis);
+	bool found = m_pPlayer->hasItem(dropThis);
 	if (found)
 	{
 		Item* item = m_pPlayer->dropInv(dropThis);
@@ -186,18 +186,18 @@ void Map::use()
 		useThis[i] = toupper(useThis[i]);
 	}
 
-	bool haveItem = m_pPlayer->checkItem(useThis);
+	bool haveItem = m_pPlayer->hasItem(useThis);
 
 	if (haveItem)
 	{
-		Item* item = m_pPlayer->getItem(useThis);
+		Item* item = m_pPlayer->dropInv(useThis);
 		if (item->getType() == "KEY")
 		{
-			if (m_pPlayerLoc->GetName() == "the Castle Gates" && m_pPlayerLoc->getAdjRooms()[0]->GetName() == "a Courtyard")
+			if (m_pPlayerLoc->GetName() == "the Castle Gates" && m_pPlayerLoc->getAdjRooms(0)->GetName() == "a Courtyard")
 			{
 				if (item->getName() == "GATEKEY")
 				{
-					m_pPlayerLoc->getAdjRooms()[0]->lockUnlock();
+					m_pPlayerLoc->getAdjRooms(0)->lockUnlock();
 					cout << "You unlocked the gates with the key and may enter." << endl;
 					m_pPlayer->dropInv(useThis);
 				}

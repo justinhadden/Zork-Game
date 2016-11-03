@@ -8,7 +8,7 @@ public:
 
 	void move(string theChoice);
 	void look();
-	void ground();
+	void inspect();
 	void pick();
 	void drop();
 	void playerInv();

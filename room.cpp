@@ -36,12 +36,22 @@ void Room::lockUnlock()
 	}
 }
 
+bool Room::isLocked()
+{
+	return locked;
+}
+
 void Room::addItem(Item* item)
 {
 	items.push_back(item);
 }
 
-void Room::ground()
+Room* Room::getAdjRooms(int index)
+{
+	return m_AdjRooms[index];
+}
+
+void Room::inspect()
 {
 	vector<Item*>::iterator iter;
 	if (items.begin() == items.end())
