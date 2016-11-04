@@ -20,6 +20,7 @@ Map::Map()
 	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.");
 
 	Room* courtyard = new Room("a Courtyard", "You are in the courtyard of the castle", true, "GATEKEY");
+	Item* sword = new Item("SWORD", "WEAPON", "A magical sword(sword)", "magic sword", 3);
 	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
 
 	house->addItem(key);
@@ -28,6 +29,7 @@ Map::Map()
 	mountain->addItem(pickaxe);
 	swamp->addItem(mudball);
 	courtyard->addItem(gold);
+	courtyard->addItem(sword);
 
 	house->setAdjRooms(mountain, forest, 0, 0);
 	forest->setAdjRooms(oldcabin, swamp, 0, house);

@@ -79,6 +79,13 @@ Item* Player::dropItem(string dropThis)
 	{
 		if ((*iter)->getName() == dropThis)
 		{
+			if (hasWeapon())
+			{
+				if ((*iter)->getDesc() == m_EquipedWeapon->getDesc())
+				{
+					unequipWeapon();
+				}
+			}
 			item = *iter;
 			m_Inventory.erase(iter);
 			cout << item->getDesc() << " removed from inventory." << endl;
@@ -162,7 +169,7 @@ void Player::equipWeapon()
 
 void Player::unequipWeapon()
 {
-	cout << "You have sheathed your " << m_EquipedWeapon->getDesc() << endl;
+	cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
 	m_EquipedWeapon = 0;
 }
 
