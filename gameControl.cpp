@@ -2,15 +2,16 @@
 
 void GameControl::info()
 {
-	cout << "'Help(h)' - gives you your options" << endl;
-	cout << "'Look(l)' - lets you look around" << endl;
-	cout << "'WhereAmI(wai)' - gets a discription of where you are" << endl;
-	cout << "'North(n)/East(e)/South(s)/West(w)' - move around" << endl;
-	cout << "'Inspect(i)' - looks for items on the ground" << endl;
-	cout << "'Take(t)' - picks up an item from the ground" << endl;
-	cout << "'Equip(eqp)' - equip weapon" << endl;
-	cout << "'Character Inventory(c)' - checks your inventory" << endl;
-	cout << "'Use(u)' - uses an item" << endl;
+	cout << "'Help' - gives you your options" << endl;
+	cout << "'Look' - lets you look around" << endl;
+	cout << "'Info' - gets a discription of where you are" << endl;
+	cout << "'North/East/South/West' - move around" << endl;
+	cout << "'Inspect' - looks for items on the ground" << endl;
+	cout << "'Take' - picks up an item from the ground" << endl;
+	cout << "'Equip' - equip weapon" << endl;
+	cout << "'Character Inventory' - get information about your character" << endl;
+	cout << "'Attack' - attacks the enemy in the room" << endl;
+	cout << "'Use' - uses an item" << endl;
 	cout << "'Quit' - quits the game" << endl;
 }
 
@@ -18,8 +19,12 @@ void GameControl::loop(Map* theMap)
 {
 	string theChoice;
 
+	cout << "--------------------------------" << endl;
+	theMap->getPlayerLoc()->getDesc();
+	cout << "--------------------------------" << endl;
+
 	while (theChoice != "QUIT")
-	{
+	{	
 		cin >> theChoice;
 
 		for (int i = 0; i < theChoice.length(); ++i)
@@ -76,7 +81,7 @@ void GameControl::loop(Map* theMap)
 			theMap->drop();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "WAI" || theChoice == "WHEREAMI")
+		else if (theChoice == "WAI" || theChoice == "INFO")
 		{
 			cout << "--------------------------------" << endl;
 			theMap->getPlayerLoc()->getDesc();

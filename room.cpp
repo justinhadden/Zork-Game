@@ -20,8 +20,9 @@ void Room::getDesc()
 	cout << m_Desc << endl;
 }
 
-string Room::getName()
+string Room::getName(string addThis)
 {
+	m_Name = m_Name + addThis;
 	return m_Name;
 }
 

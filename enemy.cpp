@@ -31,3 +31,13 @@ void Enemy::damage(int damage)
 {
 	m_Health -= damage;
 }
+
+void Enemy::setReward(Item * reward)
+{
+	m_Reward = reward;
+}
+
+Item * Enemy::getReward()
+{
+	return m_Reward;
+}

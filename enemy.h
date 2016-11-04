@@ -1,7 +1,4 @@
-#include<iostream>
-#include<string>
-
-using namespace std;
+#include "item.h"
 
 class Enemy
 {
@@ -12,9 +9,11 @@ public:
 	int getAttack();
 	int getHealth();
 	void damage(int damage);
-
+	void setReward(Item* reward);
+	Item* getReward();
 
 private:
+	Item* m_Reward;
 	string m_Name;
 	string m_Desc;
 	int m_Attack;

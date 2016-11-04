@@ -13,7 +13,7 @@ int main()
 	cout << "Good Luck, " << map.getName() << endl;
 	cout << "--------------------------------" << endl;
 	cout << "Type 'help' for a list of options" << endl;
-
+	
 	GameControl gameCont;
 	gameCont.loop(&map);
 

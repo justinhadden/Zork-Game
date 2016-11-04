@@ -8,6 +8,7 @@ Map::Map()
 	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.");
 
 	Room* oldcabin = new Room("an Old Cabin", "You are in the forest next to and old cabin.");
+	Enemy* goblin = new Enemy("Goblin", "A disgusting looking goblin with a crude axe", 200, 25);
 	Item* gateKey = new Item("GATEKEY", "KEY", "The Gate Key(gatekey)");
 
 	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.");
@@ -17,25 +18,44 @@ Map::Map()
 	Room* swamp = new Room("a Swamp", "You are in a nasty swamp surrounded by flies.");
 	Item* mudball = new Item("MUDBALL", "MUDBALL", "A nasty ball of mud(mudball)");
 	Enemy* stump = new Enemy("Stump", "A regular tree stump", 200, 0);
+	Item* battleaxe = new Item("BATTLEAXE", "WEAPON", "A huge battleaxe(battleaxe)", "battleaxe", 3.25);
 
 	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.");
 
-	Room* courtyard = new Room("a Courtyard", "You are in the courtyard of the castle", true, "GATEKEY");
+	Room* courtyard = new Room("a Courtyard behind castle gates", "You are in the courtyard of the castle", true, "GATEKEY");
 	Item* sword = new Item("SWORD", "WEAPON", "A magical sword(sword)", "magic sword", 3);
 	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
+
+	Room* castleHall = new Room("a Throne Room", "You are standing in an abandoned throne room.");
+
+	Room* hedgeMaze1 = new Room("a hedge Maze", "You are at the begining of a hedge maze.");
+	Room* hedgeMaze2 = new Room("more hedge Maze", "You are standing in a hedge maze.");
+	Room* hedgeMaze3 = new Room("more hedge Maze", "You are standing in a hedge maze.");
+	Room* hedgeMaze4 = new Room("more hedge Maze", "You are standing in a hedge maze.");
+	Room* hedgeMaze5 = new Room("more hedge Maze", "You are standing at what appears to be the end of the hedgemaze.");
+	Item* magicScroll = new Item("SCROLL", "KEY", "A scroll that is glowing with magic(scroll)");
+
+	Room* magicRoom = new Room("a Magical Barrier", "You are standing in a old magicians study.", true, "SCROLL");
+	Item* fireStaff = new Item("FIRESTAFF", "WEAPON", "A staff of firebolts(firestaff)", "firestaff", 4);
 
 
 	//Adding items to rooms
 	house->addItem(key);
-	oldcabin->addItem(gateKey);
 	mountain->addItem(rock);
 	mountain->addItem(pickaxe);
 	swamp->addItem(mudball);
 	courtyard->addItem(gold);
 	courtyard->addItem(sword);
+	hedgeMaze5->addItem(magicScroll);
+	magicRoom->addItem(fireStaff);
+
+	//Adding rewards for enemies
+	stump->setReward(battleaxe);
+	goblin->setReward(gateKey);
 
 	//Adding enemies to rooms
 	swamp->addEnemy(stump);
+	oldcabin->addEnemy(goblin);
 
 	//Setting adjacent rooms for each room
 	house->setAdjRooms(mountain, forest, 0, 0);
@@ -44,7 +64,15 @@ Map::Map()
 	mountain->setAdjRooms(0, oldcabin, house, 0);
 	swamp->setAdjRooms(castleGates, 0, 0, forest);
 	castleGates->setAdjRooms(courtyard, 0, swamp, oldcabin);
-	courtyard->setAdjRooms(0, 0, castleGates, 0);
+	courtyard->setAdjRooms(castleHall, hedgeMaze1, castleGates, 0);
+	castleHall->setAdjRooms(0, 0, courtyard, magicRoom);
+	magicRoom->setAdjRooms(0, castleHall, 0, 0);
+
+	hedgeMaze1->setAdjRooms(hedgeMaze2, hedgeMaze1, hedgeMaze1, courtyard);
+	hedgeMaze2->setAdjRooms(hedgeMaze3, hedgeMaze2, hedgeMaze2, hedgeMaze1);
+	hedgeMaze3->setAdjRooms(hedgeMaze3, hedgeMaze4, hedgeMaze3, hedgeMaze1);
+	hedgeMaze4->setAdjRooms(hedgeMaze3, hedgeMaze3, hedgeMaze4, hedgeMaze5);
+	hedgeMaze5->setAdjRooms(hedgeMaze1, hedgeMaze1, hedgeMaze1, hedgeMaze1);
 
 	string name;
 	cout << "First off, What is your name?: ";
@@ -76,7 +104,7 @@ void Map::move(string theChoice)
 		}
 		else if (m_pPlayerLoc->getAdjRooms(0)->isLocked())
 		{
-			cout << "The gates are locked" << endl;
+			cout << "The way is locked" << endl;
 		}
 		else
 		{
@@ -92,6 +120,10 @@ void Map::move(string theChoice)
 		{
 			cout << "You can't go that way" << endl;
 		}
+		else if (m_pPlayerLoc->getAdjRooms(1)->isLocked())
+		{
+			cout << "The way is locked" << endl;
+		}
 		else
 		{
 			cout << "You walk east." << endl;
@@ -106,6 +138,10 @@ void Map::move(string theChoice)
 		{
 			cout << "You can't go that way" << endl;
 		}
+		else if (m_pPlayerLoc->getAdjRooms(2)->isLocked())
+		{
+			cout << "The way is locked" << endl;
+		}
 		else
 		{
 			cout << "You walk south." << endl;
@@ -119,6 +155,10 @@ void Map::move(string theChoice)
 		if (m_pPlayerLoc->getAdjRooms(3) == 0)
 		{
 			cout << "You can't go that way" << endl;
+		}
+		else if (m_pPlayerLoc->getAdjRooms(3)->isLocked())
+		{
+			cout << "The way is locked" << endl;
 		}
 		else
 		{
@@ -231,7 +271,8 @@ void Map::use()
 					if (item->getName() == m_pPlayerLoc->getAdjRooms(0)->getLockType())
 					{
 						m_pPlayerLoc->getAdjRooms(0)->lockUnlock();
-						cout << "Door unlocked. Key was removed." << endl;
+						m_pPlayerLoc->getAdjRooms(0)->getName("(Opened)");
+						cout << "Door unlocked." << endl;
 						item = m_pPlayer->dropItem(useThis);
 						delete item;
 					}
@@ -245,6 +286,7 @@ void Map::use()
 					if (item->getName() == m_pPlayerLoc->getAdjRooms(1)->getLockType())
 					{
 						m_pPlayerLoc->getAdjRooms(1)->lockUnlock();
+						m_pPlayerLoc->getAdjRooms(1)->getName("(Opened)");
 						cout << "Door unlocked." << endl;
 					}
 					else
@@ -257,6 +299,7 @@ void Map::use()
 					if (item->getName() == m_pPlayerLoc->getAdjRooms(2)->getLockType())
 					{
 						m_pPlayerLoc->getAdjRooms(2)->lockUnlock();
+						m_pPlayerLoc->getAdjRooms(2)->getName("(Opened)");
 						cout << "Door unlocked." << endl;
 					}
 					else
@@ -269,6 +312,7 @@ void Map::use()
 					if (item->getName() == m_pPlayerLoc->getAdjRooms(3)->getLockType())
 					{
 						m_pPlayerLoc->getAdjRooms(3)->lockUnlock();
+						m_pPlayerLoc->getAdjRooms(3)->getName("(Opened)");
 						cout << "Door unlocked." << endl;
 					}
 					else
@@ -319,7 +363,7 @@ void Map::attackEnemy()
 		int attackMod = 1;
 		while (answer != "n")
 		{
-			if (m_pPlayer->hasWeapon())
+			if (m_pPlayer->hasWeaponEquiped())
 			{
 				attackMod = m_pPlayer->getAttackMod();
 			}
@@ -343,7 +387,7 @@ void Map::attackEnemy()
 			}
 			else
 			{
-				cout << "The " << enemy->getName() << " has been slain." << endl;
+				cout << "The " << enemy->getName() << " has been slain and has dropped " << enemy->getReward()->getDesc() << " as loot!" << endl;
 				answer = "n";
 			}
 		}
@@ -364,6 +408,7 @@ void Map::attackEnemy()
 	}
 	else
 	{
+		m_pPlayerLoc->addItem(enemy->getReward());
 		delete enemy;
 	}
 

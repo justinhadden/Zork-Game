@@ -14,6 +14,7 @@ public:
 	int getAttack();
 	int getHealth();
 	bool hasWeapon();
+	bool hasWeaponEquiped();
 	void stashThis(Item* item);
 	void equipWeapon();
 	void unequipWeapon();

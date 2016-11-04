@@ -1,5 +1,5 @@
 #include<vector>
-#include "item.h"
+#include "enemy.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ public:
 	Item* getItem(string name);	
 	void look();
 	void getDesc();
-	string getName();
+	string getName(string addThis = "");
 
 	bool isLocked();
 	void lockUnlock();

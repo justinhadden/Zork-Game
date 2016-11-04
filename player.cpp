@@ -26,6 +26,18 @@ void Player::lookInv()
 			cout << (*iter)->getDesc() << endl;
 		}
 	}
+	cout << "--------------------------------" << endl;
+	if (m_EquipedWeapon == 0)
+	{
+		cout << "No weapon equiped." << endl;
+		cout << "Attack: 25" << endl;
+	}
+	else
+	{
+		cout << "Equiped weapon: " << m_EquipedWeapon->getDesc() << endl;
+		cout << "Attack: " << (getAttack() * m_EquipedWeapon->getAttackMod()) << endl;
+	}
+	cout << "Health: " << getHealth() << endl; 
 }
 
 bool Player::hasItem(string theChoice)
@@ -129,6 +141,18 @@ bool Player::hasWeapon()
 		}
 	}
 	return hasWeapon;
+}
+
+bool Player::hasWeaponEquiped()
+{
+	if (m_EquipedWeapon == 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void Player::stashThis(Item* item)
