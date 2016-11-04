@@ -1,4 +1,8 @@
+#include<iostream>
+#include<string>
 #include "map.h"
+
+using namespace std;
 
 class GameControl
 {
@@ -7,5 +11,5 @@ public:
 	void loop(Map* theMap);
 
 private:
-	Player* m_pPlayer;
+
 };

@@ -4,11 +4,10 @@ void GameControl::info()
 {
 	cout << "'Help(h)' - gives you your options" << endl;
 	cout << "'Look(l)' - lets you look around" << endl;
-	cout << "'WhereAmI(wai)' - gets a discription of where you are" << endl;
 	cout << "'North(n)/East(e)/South(s)/West(w)' - move around" << endl;
-	cout << "'Inspect(i)' - looks for items on the ground" << endl;
+	cout << "'Ground(g)' - looks for items on the ground" << endl;
 	cout << "'Pick(p)' - picks up an item from the ground" << endl;
-	cout << "'Character Inventory(c)' - checks your inventory" << endl;
+	cout << "'Inventory(i)' - checks your inventory" << endl;
 	cout << "'Use(u)' - uses an item" << endl;
 	cout << "'Quit' - quits the game" << endl;
 }
@@ -21,7 +20,7 @@ void GameControl::loop(Map* theMap)
 	{
 		cin >> theChoice;
 
-		for (int i = 0; i < theChoice.length(); ++i)
+		for (int i = 0; i <= theChoice.length(); ++i)
 		{
 			theChoice[i] = toupper(theChoice[i]);
 		}
@@ -36,7 +35,7 @@ void GameControl::loop(Map* theMap)
 			theChoice == "S" || theChoice == "SOUTH" || theChoice == "W" || theChoice == "WEST")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->move(theChoice);
+			theMap->move(theChoice, theMap);
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "L" || theChoice == "LOOK")
@@ -45,10 +44,10 @@ void GameControl::loop(Map* theMap)
 			theMap->look();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "I" || theChoice == "INSPECT")
+		else if (theChoice == "G" || theChoice == "GROUND")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->inspect();
+			theMap->ground();
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "P" || theChoice == "PICK")
@@ -57,7 +56,7 @@ void GameControl::loop(Map* theMap)
 			theMap->pick();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "C" || theChoice == "INVENTORY" || theChoice == "CHARACTER")
+		else if (theChoice == "I" || theChoice == "Inventory")
 		{
 			cout << "--------------------------------" << endl;
 			theMap->playerInv();
@@ -74,11 +73,6 @@ void GameControl::loop(Map* theMap)
 			cout << "--------------------------------" << endl;
 			theMap->drop();
 			cout << "--------------------------------" << endl;
-		}
-		else if (theChoice == "WAI" || theChoice == "WHEREAMI")
-		{
-			cout << "--------------------------------" << endl;
-			theMap->getPlayerLoc()->GetDesc();
 		}
 		else if (theChoice != "QUIT")
 		{

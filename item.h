@@ -6,7 +6,7 @@ using namespace std;
 class Item
 {
 public:
-	Item(const string& name = "", const string& type = "", const string& desc = "");
+	Item(const string& name = "",const string& type = "",const string& desc = "");
 	string getName();
 	string getType();
 	string getDesc();

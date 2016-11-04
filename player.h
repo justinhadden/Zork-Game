@@ -1,18 +1,17 @@
 #include "room.h"
 
+using namespace std;
+
 class Player
 {
 public:
-	Player(string name = "");
+	Player(const string& name = "");
 	void pick(Item* takeThis);
 	void lookInv();
-	bool use(string useThis);
-	bool hasItem(string haveThis);
-	Item* dropItem(string dropThis);
+	bool checkItem(string useThis);
 	Item* getItem(string getThis);
+	Item* dropInv(string dropThis);
 	string GetName();
-
-	void stashThis(Item* item);
 
 private:
 	vector<Item*> m_Inventory;

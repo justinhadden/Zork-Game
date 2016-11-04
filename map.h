@@ -1,19 +1,20 @@
 #include "player.h"
 
+using namespace std;
+
 class Map
 {
 public:
 	Map();
 	~Map();
 
-	void move(string theChoice);
+	void move(string theChoice, Map* theMap);
 	void look();
-	void inspect();
+	void ground();
 	void pick();
 	void drop();
 	void playerInv();
 	void use();
-	Room* getPlayerLoc();
 	string getName();
 
 private:

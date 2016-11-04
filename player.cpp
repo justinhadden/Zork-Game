@@ -1,13 +1,13 @@
 #include "player.h"
 
-Player::Player(string name) :
+Player::Player(const string& name):
 	m_Name(name)
 {}
 
-void Player::pick(Item* theChoice)
+void Player::pick(Item* takeThis)
 {
-	m_Inventory.push_back(theChoice);
-	cout << "Picked up " << theChoice->getDesc() << endl;
+	m_Inventory.push_back(takeThis);
+	cout << "Picked up " << takeThis->getDesc() << endl;
 }
 
 void Player::lookInv()
@@ -27,49 +27,45 @@ void Player::lookInv()
 	}
 }
 
-bool Player::hasItem(string theChoice)
+bool Player::checkItem(string useThis)
 {
 	vector<Item*>::iterator iter;
-	bool found = false;
-
-	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
-	{
-		if ((*iter)->getName() == theChoice)
-		{
-			found = true;
-		}
-	}
-
-	if (!found)
-	{
-		cout << "You do not have that item." << endl;
-	}
-
-	return found;
-}
-
-bool Player::use(string useThis)
-{
-	vector<Item*>::iterator iter;
-	bool found = true;
-
+	bool haveItem = false;
 	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 	{
 		if ((*iter)->getName() == useThis)
 		{
-			found = true;
+			haveItem = true;
+			break;
+		}
+	}
+	if (!haveItem)
+	{
+		cout << "You don't have that item" << endl;
+		haveItem = false;
+	}
+
+	return haveItem;
+}
+
+Item * Player::getItem(string getThis)
+{
+	vector<Item*>::iterator iter;
+	Item* item;
+
+	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+	{
+		if ((*iter)->getName() == getThis)
+		{
+			item = *iter;
+			break;
 		}
 	}
 
-	if (!found)
-	{
-		cout << "You don't have that item." << endl;
-	}
-
-	return found;
+	return item;
 }
 
-Item* Player::dropItem(string dropThis)
+Item* Player::dropInv(string dropThis)
 {
 	vector<Item*>::iterator iter;
 	Item* item;
@@ -79,23 +75,10 @@ Item* Player::dropItem(string dropThis)
 		if ((*iter)->getName() == dropThis)
 		{
 			item = *iter;
+			cout << (*iter)->getName() << " removed from inventory." << endl;
 			m_Inventory.erase(iter);
-			cout << item->getDesc() << " removed from inventory." << endl;
+			
 			break;
-		}
-	}
-	return item;
-}
-
-Item* Player::getItem(string getThis)
-{
-	vector<Item*>::iterator iter;
-	Item* item;
-	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
-	{
-		if ((*iter)->getName() == getThis)
-		{
-			item = *iter;
 		}
 	}
 
@@ -105,9 +88,4 @@ Item* Player::getItem(string getThis)
 string Player::GetName()
 {
 	return m_Name;
-}
-
-void Player::stashThis(Item* item)
-{
-	m_Inventory.push_back(item);
 }

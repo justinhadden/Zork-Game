@@ -8,8 +8,8 @@ Map::Map()
 	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.");
 
 	Room* oldcabin = new Room("an Old Cabin", "You are in the forest next to and old cabin.");
-	Item* gateKey = new Item("GATEKEY", "KEY", "The Gate Key(gatekey)");
-
+	Item* gatekey = new Item("GATEKEY", "KEY", "The Gate Key(gatekey)");
+	
 	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.");
 	Item* rock = new Item("ROCK", "ROCK", "A small rock(rock)");
 	Item* pickaxe = new Item("PICKAXE", "WEAPON", "A rusty pickaxe(pickaxe)");
@@ -19,11 +19,12 @@ Map::Map()
 
 	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.");
 
-	Room* courtyard = new Room("a Courtyard", "You are in the courtyard of the castle", true, "GATEKEY");
+	Room* courtyard = new Room("a Courtyard", "You are in the courtyard of the castle");
 	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
+	courtyard->lockUnlock();
 
-	//house->addItem(key);
-	//oldcabin->addItem(gateKey);
+	house->addItem(key);
+	oldcabin->addItem(gatekey);
 	mountain->addItem(rock);
 	mountain->addItem(pickaxe);
 	swamp->addItem(mudball);
@@ -43,10 +44,7 @@ Map::Map()
 
 	Player* player = new Player(name);
 
-	m_pPlayer->stashThis(key);
-	m_pPlayer->stashThis(gateKey);
-
-	m_pPlayerLoc = castleGates;
+	m_pPlayerLoc = house;
 	m_pPlayer = player;
 }
 
@@ -60,61 +58,61 @@ string Map::getName()
 	return m_pPlayer->GetName();
 }
 
-void Map::move(string theChoice)
+void Map::move(string theChoice, Map* theMap)
 {
 	if (theChoice == "N" || theChoice == "NORTH")
 	{
-		if (m_pPlayerLoc->getAdjRooms(0) == 0)
+		if (m_pPlayerLoc->getAdjRooms()[0] == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
-		else if (m_pPlayerLoc->getAdjRooms(0)->isLocked())
+		else if (m_pPlayerLoc->getAdjRooms()[0]->isLocked())
 		{
 			cout << "The gates are locked" << endl;
 		}
 		else
 		{
 			cout << "You walk north." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(0);
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[0];
 			m_pPlayerLoc->GetDesc();
 		}
 	}
 	else if (theChoice == "E" || theChoice == "EAST")
 	{
-		if (m_pPlayerLoc->getAdjRooms(1) == 0)
+		if (m_pPlayerLoc->getAdjRooms()[1] == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
 		else
 		{
 			cout << "You walk east." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(1);
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[1];
 			m_pPlayerLoc->GetDesc();
 		}
 	}
 	else if (theChoice == "S" || theChoice == "SOUTH")
 	{
-		if (m_pPlayerLoc->getAdjRooms(2) == 0)
+		if (m_pPlayerLoc->getAdjRooms()[2] == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
 		else
 		{
 			cout << "You walk south." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(2);
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[2];
 			m_pPlayerLoc->GetDesc();
 		}
 	}
 	else if (theChoice == "W" || theChoice == "WEST")
 	{
-		if (m_pPlayerLoc->getAdjRooms(3) == 0)
+		if (m_pPlayerLoc->getAdjRooms()[3] == 0)
 		{
 			cout << "You can't go that way" << endl;
 		}
 		else
 		{
 			cout << "You walk west." << endl;
-			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(3);
+			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms()[3];
 			m_pPlayerLoc->GetDesc();
 		}
 	}
@@ -123,12 +121,13 @@ void Map::move(string theChoice)
 
 void Map::look()
 {
+	m_pPlayerLoc->GetDesc();
 	m_pPlayerLoc->look();
 }
 
-void Map::inspect()
+void Map::ground()
 {
-	m_pPlayerLoc->inspect();
+	m_pPlayerLoc->ground();
 }
 
 void Map::pick()
@@ -163,10 +162,10 @@ void Map::drop()
 		dropThis[i] = toupper(dropThis[i]);
 	}
 
-	bool found = m_pPlayer->hasItem(dropThis);
+	bool found = m_pPlayer->checkItem(dropThis);
 	if (found)
 	{
-		Item* item = m_pPlayer->dropItem(dropThis);
+		Item* item = m_pPlayer->dropInv(dropThis);
 		m_pPlayerLoc->addItem(item);
 	}
 }
@@ -187,89 +186,29 @@ void Map::use()
 		useThis[i] = toupper(useThis[i]);
 	}
 
-	bool haveItem = m_pPlayer->hasItem(useThis);
+	bool haveItem = m_pPlayer->checkItem(useThis);
 
 	if (haveItem)
 	{
 		Item* item = m_pPlayer->getItem(useThis);
 		if (item->getType() == "KEY")
 		{
-			bool lockedDoors = false;
-			for (int i = 0; i <= 4; ++i)
+			if (m_pPlayerLoc->GetName() == "the Castle Gates" && m_pPlayerLoc->getAdjRooms()[0]->GetName() == "a Courtyard")
 			{
-				if (m_pPlayerLoc->getAdjRooms(i)->isLocked())
+				if (item->getName() == "GATEKEY")
 				{
-					lockedDoors = true;
+					m_pPlayerLoc->getAdjRooms()[0]->lockUnlock();
+					cout << "You unlocked the gates with the key and may enter." << endl;
+					m_pPlayer->dropInv(useThis);
 				}
-
-				if (lockedDoors)
+				else
 				{
-					string theChoice;
-					cout << "Which door would you like to open?(n/e/s/w)" << endl;
-					cin >> theChoice;
-
-					for (int i = 0; i <= theChoice.length(); ++i)
-					{
-						theChoice[i] = toupper(theChoice[i]);
-					}
-
-					if (theChoice == "N" || theChoice == "NORTH")
-					{
-						if (item->getName() == m_pPlayerLoc->getAdjRooms(0)->getLockType())
-						{
-							m_pPlayerLoc->getAdjRooms(0)->lockUnlock();
-							cout << "Door unlocked. Key was removed." << endl;
-							item = m_pPlayer->dropItem(useThis);
-							delete item;
-						}
-						else
-						{
-							cout << "Wrong key." << endl;
-						}
-					}
-					else if (theChoice == "E" || theChoice == "EAST")
-					{
-						if (item->getName() == m_pPlayerLoc->getAdjRooms(1)->getLockType())
-						{
-							m_pPlayerLoc->getAdjRooms(1)->lockUnlock();
-							cout << "Door unlocked." << endl;
-						}
-						else
-						{
-							cout << "Wrong key." << endl;
-						}
-					}
-					else if (theChoice == "S" || theChoice == "SOUTH")
-					{
-						if (item->getName() == m_pPlayerLoc->getAdjRooms(2)->getLockType())
-						{
-							m_pPlayerLoc->getAdjRooms(2)->lockUnlock();
-							cout << "Door unlocked." << endl;
-						}
-						else
-						{
-							cout << "Wrong key." << endl;
-						}
-					}
-					else if (theChoice == "W" || theChoice == "WEST")
-					{
-						if (item->getName() == m_pPlayerLoc->getAdjRooms(3)->getLockType())
-						{
-							m_pPlayerLoc->getAdjRooms(3)->lockUnlock();
-							cout << "Door unlocked." << endl;
-						}
-						else
-						{
-							cout << "Wrong key." << endl;
-						}
-					}
-					else
-					{
-						cout << "--------------------------------" << endl;
-						cout << "I do not recognize that command" << endl;
-						cout << "--------------------------------" << endl;
-					}
+					cout << "Wrong key." << endl;
 				}
+			}
+			else
+			{
+				cout << "Can't use that here." << endl;
 			}
 		}
 		else
@@ -277,13 +216,4 @@ void Map::use()
 			cout << "Can't use that here." << endl;
 		}
 	}
-	else
-	{
-		cout << "You don't have that item." << endl;
-	}
-}
-
-Room* Map::getPlayerLoc()
-{
-	return m_pPlayerLoc;
 }
