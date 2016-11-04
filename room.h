@@ -6,43 +6,27 @@ using namespace std;
 class Room
 {
 public:
-	Room(const string& name = "", const string& desc = "");
-
-    // Set the rooms adjacent to this room
+	Room(const string& name = "", const string& desc = "", bool isLocked = false, string lockType = "");
 	void setAdjRooms(Room *north, Room *east, Room *south, Room *west);
-    // Get the rooms adjacent to this room
-    auto getAdjRooms() const
-    {
-        return adjRooms_;
-    }
-
-    // Add an item to the room
-    void addItem(Item *item);
-    // Check if the room has an item
-    bool hasItem(string name);
-    // Get an item from the room
-    Item *getItem(string name);
-
-    // Check if the room is locked
-    bool isLocked() const
-    {
-        return locked_;
-    }
-
+	Room* getAdjRooms(int index);
+	void addItem(Item* item);
+	bool hasItem(string name);
+	Item* getItem(string name);	
 	void look();
-	string GetDesc();
-	string GetName();
+	void getDesc();
+	string getName();
+
+	bool isLocked();
 	void lockUnlock();
-	
-	void ground();
+	string getLockType();
+
+	void inspect();
 
 private:
-    Room *adjRooms_[4];
-
-	vector<Item*> items_;
-
-	string name_;
-	string desc_;
-
-    bool locked_;
+	Room* m_AdjRooms[4];
+	vector<Item*> items;
+	string m_Name;
+	string m_Desc;
+	bool locked;
+	string m_lockType;
 };
