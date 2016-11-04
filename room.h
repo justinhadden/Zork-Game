@@ -24,9 +24,9 @@ public:
 
 private:
 	Room* m_AdjRooms[4];
-	vector<Item*> items;
+	vector<Item*> m_Items;
 	string m_Name;
 	string m_Desc;
-	bool locked;
-	string m_lockType;
+	bool m_Locked;
+	string m_LockType;
 };

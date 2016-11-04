@@ -14,9 +14,14 @@ public:
 	bool hasWeapon();
 	void stashThis(Item* item);
 	void equipWeapon();
+	void unequipWeapon();
+	void showAttack();
+	void attack();
 
 private:
 	vector<Item*> m_Inventory;
 	string m_Name;
-	Item* equipedWeapon;
+	Item* m_EquipedWeapon;
+	int m_attack = 25;
+	int m_health = 300;
 };

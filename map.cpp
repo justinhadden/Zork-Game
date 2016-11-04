@@ -12,7 +12,7 @@ Map::Map()
 
 	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.");
 	Item* rock = new Item("ROCK", "ROCK", "A small rock(rock)");
-	Item* pickaxe = new Item("PICKAXE", "WEAPON", "A rusty pickaxe(pickaxe)");
+	Item* pickaxe = new Item("PICKAXE", "WEAPON", "A rusty pickaxe(pickaxe)", "pickaxe", 2);
 
 	Room* swamp = new Room("a Swamp", "You are in a nasty swamp surrounded by flies.");
 	Item* mudball = new Item("MUDBALL", "MUDBALL", "A nasty ball of mud(mudball)");
@@ -131,7 +131,7 @@ void Map::inspect()
 void Map::pick()
 {
 	string choice;
-	cout << "Pick up which item?: ";
+	cout << "Take which item?: ";
 	cin >> choice;
 
 	for (int i = 0; i <= choice.length(); ++i)

@@ -7,7 +7,7 @@ void GameControl::info()
 	cout << "'WhereAmI(wai)' - gets a discription of where you are" << endl;
 	cout << "'North(n)/East(e)/South(s)/West(w)' - move around" << endl;
 	cout << "'Inspect(i)' - looks for items on the ground" << endl;
-	cout << "'Pick(p)' - picks up an item from the ground" << endl;
+	cout << "'Take(t)' - picks up an item from the ground" << endl;
 	cout << "'Equip(eqp)' - equip weapon" << endl;
 	cout << "'Character Inventory(c)' - checks your inventory" << endl;
 	cout << "'Use(u)' - uses an item" << endl;
@@ -52,7 +52,7 @@ void GameControl::loop(Map* theMap)
 			theMap->inspect();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "P" || theChoice == "PICK")
+		else if (theChoice == "T" || theChoice == "TAKE")
 		{
 			cout << "--------------------------------" << endl;
 			theMap->pick();
@@ -85,6 +85,24 @@ void GameControl::loop(Map* theMap)
 		{
 			cout << "--------------------------------" << endl;
 			theMap->getPlayer()->equipWeapon();
+			cout << "--------------------------------" << endl;
+		}
+		else if (theChoice == "SHOWATTACK")
+		{
+			cout << "--------------------------------" << endl;
+			theMap->getPlayer()->showAttack();
+			cout << "--------------------------------" << endl;
+		}
+		else if (theChoice == "UNEQUIP")
+		{
+			cout << "--------------------------------" << endl;
+			theMap->getPlayer()->unequipWeapon();
+			cout << "--------------------------------" << endl;
+		}
+		else if (theChoice == "A" || theChoice == "ATTACK")
+		{
+			cout << "--------------------------------" << endl;
+			theMap->getPlayer()->attack();
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice != "QUIT")

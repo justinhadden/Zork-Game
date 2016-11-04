@@ -3,8 +3,8 @@
 Room::Room(const string& name, const string& desc, bool isLocked, string lockType)
 	: m_Name(name)
 	, m_Desc(desc)
-	, locked(isLocked)
-	, m_lockType(lockType)
+	, m_Locked(isLocked)
+	, m_LockType(lockType)
 {}
 
 void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)
@@ -27,29 +27,29 @@ string Room::getName()
 
 void Room::lockUnlock()
 {
-	if (locked)
+	if (m_Locked)
 	{
-		locked = false;
+		m_Locked = false;
 	}
 	else
 	{
-		locked = true;
+		m_Locked = true;
 	}
 }
 
 bool Room::isLocked()
 {
-	return locked;
+	return m_Locked;
 }
 
 string Room::getLockType()
 {
-	return m_lockType;
+	return m_LockType;
 }
 
 void Room::addItem(Item* item)
 {
-	items.push_back(item);
+	m_Items.push_back(item);
 }
 
 Room* Room::getAdjRooms(int index)
@@ -60,14 +60,14 @@ Room* Room::getAdjRooms(int index)
 void Room::inspect()
 {
 	vector<Item*>::iterator iter;
-	if (items.empty())
+	if (m_Items.empty())
 	{
 		cout << "Nothing here" << endl;
 	}
 	else
 	{
 		cout << "On the ground you see:" << endl;
-		for (iter = items.begin(); iter != items.end(); ++iter)
+		for (iter = m_Items.begin(); iter != m_Items.end(); ++iter)
 		{
 			cout << (*iter)->getDesc() << endl;
 		}
@@ -79,7 +79,7 @@ bool Room::hasItem(string theChoice)
 	vector<Item*>::iterator iter;
 	bool found = false;
 
-	for (iter = items.begin(); iter != items.end(); ++iter)
+	for (iter = m_Items.begin(); iter != m_Items.end(); ++iter)
 	{
 		if ((*iter)->getName() == theChoice)
 		{
@@ -120,12 +120,12 @@ Item* Room::getItem(string name)
 	vector<Item*>::iterator iter;
 	Item* item;
 
-	for (iter = items.begin(); iter != items.end(); ++iter)
+	for (iter = m_Items.begin(); iter != m_Items.end(); ++iter)
 	{
 		if ((*iter)->getName() == name)
 		{
 			item = *iter;
-			items.erase(iter);
+			m_Items.erase(iter);
 			break;
 		}
 	}

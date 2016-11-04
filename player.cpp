@@ -1,7 +1,8 @@
 #include "player.h"
 
-Player::Player(string name) :
-	m_Name(name)
+Player::Player(string name)
+	: m_Name(name)
+	, m_EquipedWeapon(0)
 {}
 
 void Player::pick(Item* theChoice)
@@ -147,8 +148,8 @@ void Player::equipWeapon()
 		{
 			if ((*iter)->getName() == theChoice)
 			{
-				equipedWeapon = *iter;
-				cout << equipedWeapon->getDesc() << " has been equiped" << endl;
+				m_EquipedWeapon = *iter;
+				cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
 			}
 		}
 
@@ -157,4 +158,37 @@ void Player::equipWeapon()
 	{
 		cout << "You don't have a weapon" << endl;
 	}
+}
+
+void Player::unequipWeapon()
+{
+	cout << "You have sheathed your " << m_EquipedWeapon->getDesc() << endl;
+	m_EquipedWeapon = 0;
+}
+
+void Player::showAttack()
+{
+	if (m_EquipedWeapon != 0)
+	{
+		cout << m_attack * m_EquipedWeapon->getAttackMod() << endl;
+	}
+	else
+	{
+		cout << m_attack << endl;
+	}
+}
+
+void Player::attack()
+{
+	string attackWep;
+	if (m_EquipedWeapon == 0)
+	{
+		attackWep = "fists";
+	}
+	else
+	{
+		attackWep = m_EquipedWeapon->getShortDesc();
+	}
+
+	cout << "You swing your " << attackWep << " at nothing in particular..." << endl;
 }
