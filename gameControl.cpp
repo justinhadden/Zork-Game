@@ -80,6 +80,8 @@ void GameControl::loop(Map* theMap)
 		{
 			cout << "--------------------------------" << endl;
 			theMap->getPlayerLoc()->getDesc();
+			theMap->getPlayerLoc()->listEnemies();
+			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "EQP" || theChoice == "EQUIP")
 		{
@@ -102,7 +104,20 @@ void GameControl::loop(Map* theMap)
 		else if (theChoice == "A" || theChoice == "ATTACK")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->getPlayer()->attack();
+			if (theMap->getPlayerLoc()->hasEnemies())
+			{
+				theMap->attackEnemy();
+			}
+			else
+			{
+				theMap->getPlayer()->attack();
+			}
+			cout << "--------------------------------" << endl;
+		}
+		else if (theChoice == "SHOWHEALTH")
+		{
+			cout << "--------------------------------" << endl;
+			theMap->getPlayer()->showHealth();
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice != "QUIT")

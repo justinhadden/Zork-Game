@@ -52,6 +52,11 @@ void Room::addItem(Item* item)
 	m_Items.push_back(item);
 }
 
+void Room::addEnemy(Enemy* enemy)
+{
+	m_Enemies.push_back(enemy);
+}
+
 Room* Room::getAdjRooms(int index)
 {
 	return m_AdjRooms[index];
@@ -71,6 +76,32 @@ void Room::inspect()
 		{
 			cout << (*iter)->getDesc() << endl;
 		}
+	}
+}
+
+void Room::listEnemies()
+{
+	vector<Enemy*>::iterator iter;
+
+	if (!m_Enemies.empty())
+	{
+		cout << "Things to fight: " << endl;
+		for (iter = m_Enemies.begin(); iter != m_Enemies.end(); ++iter)
+		{
+			cout << (*iter)->getDesc() << endl;
+		}
+	}
+}
+
+bool Room::hasEnemies()
+{
+	if (m_Enemies.empty())
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 
@@ -132,4 +163,13 @@ Item* Room::getItem(string name)
 
 
 	return item;
+}
+
+Enemy* Room::getEnemy()
+{
+	Enemy* enemy = m_Enemies[0];
+
+	m_Enemies.erase(m_Enemies.begin());
+
+	return enemy;
 }

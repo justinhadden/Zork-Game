@@ -16,6 +16,7 @@ Map::Map()
 
 	Room* swamp = new Room("a Swamp", "You are in a nasty swamp surrounded by flies.");
 	Item* mudball = new Item("MUDBALL", "MUDBALL", "A nasty ball of mud(mudball)");
+	Enemy* stump = new Enemy("Stump", "A regular tree stump", 200, 0);
 
 	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.");
 
@@ -23,6 +24,8 @@ Map::Map()
 	Item* sword = new Item("SWORD", "WEAPON", "A magical sword(sword)", "magic sword", 3);
 	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
 
+
+	//Adding items to rooms
 	house->addItem(key);
 	oldcabin->addItem(gateKey);
 	mountain->addItem(rock);
@@ -31,6 +34,10 @@ Map::Map()
 	courtyard->addItem(gold);
 	courtyard->addItem(sword);
 
+	//Adding enemies to rooms
+	swamp->addEnemy(stump);
+
+	//Setting adjacent rooms for each room
 	house->setAdjRooms(mountain, forest, 0, 0);
 	forest->setAdjRooms(oldcabin, swamp, 0, house);
 	oldcabin->setAdjRooms(0, castleGates, forest, mountain);
@@ -76,6 +83,7 @@ void Map::move(string theChoice)
 			cout << "You walk north." << endl;
 			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(0);
 			m_pPlayerLoc->getDesc();
+			m_pPlayerLoc->listEnemies();
 		}
 	}
 	else if (theChoice == "E" || theChoice == "EAST")
@@ -89,6 +97,7 @@ void Map::move(string theChoice)
 			cout << "You walk east." << endl;
 			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(1);
 			m_pPlayerLoc->getDesc();
+			m_pPlayerLoc->listEnemies();
 		}
 	}
 	else if (theChoice == "S" || theChoice == "SOUTH")
@@ -102,6 +111,7 @@ void Map::move(string theChoice)
 			cout << "You walk south." << endl;
 			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(2);
 			m_pPlayerLoc->getDesc();
+			m_pPlayerLoc->listEnemies();
 		}
 	}
 	else if (theChoice == "W" || theChoice == "WEST")
@@ -115,6 +125,7 @@ void Map::move(string theChoice)
 			cout << "You walk west." << endl;
 			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(3);
 			m_pPlayerLoc->getDesc();
+			m_pPlayerLoc->listEnemies();
 		}
 	}
 
@@ -292,4 +303,68 @@ Room* Map::getPlayerLoc()
 Player* Map::getPlayer()
 {
 	return m_pPlayer;
+}
+
+void Map::attackEnemy()
+{
+	Enemy* enemy = m_pPlayerLoc->getEnemy();
+	
+	string answer;
+	cout << "Are you sure you want to attack the " << enemy->getName() << "?(y/n)";
+	cin >> answer;
+
+	if (answer == "y" || answer == "Y")
+	{
+		int attack = m_pPlayer->getAttack();
+		int attackMod = 1;
+		while (answer != "n")
+		{
+			if (m_pPlayer->hasWeapon())
+			{
+				attackMod = m_pPlayer->getAttackMod();
+			}
+			enemy->damage(attack * attackMod);
+
+			cout << "You attack the " << enemy->getName() << " for " << attack * attackMod << " damage." << endl;
+			if (enemy->getAttack() == 0)
+			{
+				cout << "The " << enemy->getName() << " does not fight back." << endl;
+			}
+			else
+			{
+				m_pPlayer->damage(enemy->getAttack());
+				cout << "The " << enemy->getName() << " hit you for " << enemy->getAttack() << " damage." << endl;
+				cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+			}
+			if (enemy->getHealth() > 0)
+			{
+				cout << "Attack again?(y/n): ";
+				cin >> answer;
+			}
+			else
+			{
+				cout << "The " << enemy->getName() << " has been slain." << endl;
+				answer = "n";
+			}
+		}
+	}
+	else if (answer == "n" || answer == "N")
+	{
+		cout << "Wussy" << endl;
+	}
+	else
+	{
+		cout << "--------------------------------" << endl;
+		cout << "I do not recognize that command" << endl;
+		cout << "--------------------------------" << endl;
+	}
+	if (enemy->getHealth() > 0)
+	{
+		m_pPlayerLoc->addEnemy(enemy);
+	}
+	else
+	{
+		delete enemy;
+	}
+
 }

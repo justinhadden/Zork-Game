@@ -1,7 +1,4 @@
-#include<string>
-#include<iostream>
-
-using namespace std;
+#include "enemy.h"
 
 class Item
 {

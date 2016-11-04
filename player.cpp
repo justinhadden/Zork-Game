@@ -177,12 +177,37 @@ void Player::showAttack()
 {
 	if (m_EquipedWeapon != 0)
 	{
-		cout << m_attack * m_EquipedWeapon->getAttackMod() << endl;
+		cout << m_Attack * m_EquipedWeapon->getAttackMod() << endl;
 	}
 	else
 	{
-		cout << m_attack << endl;
+		cout << m_Attack << endl;
 	}
+}
+
+void Player::showHealth()
+{
+	cout << m_health << endl;
+}
+
+void Player::damage(int damage)
+{
+	m_health -= damage;
+}
+
+int Player::getAttack()
+{
+	return m_Attack;
+}
+
+int Player::getHealth()
+{
+	return m_health;
+}
+
+int Player::getAttackMod()
+{
+	return m_EquipedWeapon->getAttackMod();
 }
 
 void Player::attack()
