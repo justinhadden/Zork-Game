@@ -2,8 +2,6 @@
 
 int main()
 {
-
-
 	cout << "-----------Welcome to Zork-----------" << endl;
 	cout << "A fantastic adventure set in a creepy" << endl;
 	cout << "world filled with treasure and terrors" << endl;

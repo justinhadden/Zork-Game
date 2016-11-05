@@ -23,11 +23,16 @@ public:
 	void damage(int damage);
 	void attack();
 	int getAttackMod();
+	int getInvCount();
+	int getMaxInv();
+	void setInvCount(int set);
 
 private:
+	int m_InvCount;
+	int m_MaxInv = 5;
 	vector<Item*> m_Inventory;
 	string m_Name;
 	Item* m_EquipedWeapon;
 	int m_Attack = 25;
-	int m_health = 300;
+	int m_health = 100;
 };

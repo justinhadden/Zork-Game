@@ -5,7 +5,9 @@ class GameControl
 public:
 	void info();
 	void loop(Map* theMap);
+	void playerDead();
 
 private:
-	Player* m_pPlayer;
+	bool gameOver;
+	Map* m_TheMap;
 };

@@ -3,6 +3,7 @@
 Player::Player(string name)
 	: m_Name(name)
 	, m_EquipedWeapon(0)
+	, m_InvCount(0)
 {}
 
 void Player::pick(Item* theChoice)
@@ -20,7 +21,7 @@ void Player::lookInv()
 	}
 	else
 	{
-		cout << "Your inventory:" << endl;
+		cout << m_Name << "'s inventory:" << endl;
 		for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 		{
 			cout << (*iter)->getDesc() << endl;
@@ -37,7 +38,8 @@ void Player::lookInv()
 		cout << "Equiped weapon: " << m_EquipedWeapon->getDesc() << endl;
 		cout << "Attack: " << (getAttack() * m_EquipedWeapon->getAttackMod()) << endl;
 	}
-	cout << "Health: " << getHealth() << endl; 
+	cout << "Health: " << getHealth() << endl;
+	cout << "Inventory Slots: " << m_MaxInv << endl;
 }
 
 bool Player::hasItem(string theChoice)
@@ -127,6 +129,21 @@ string Player::getName()
 	return m_Name;
 }
 
+int Player::getMaxInv()
+{
+	return m_MaxInv;
+}
+
+int Player::getInvCount()
+{
+	return m_InvCount;
+}
+
+void Player::setInvCount(int set)
+{
+	m_InvCount += set;
+}
+
 bool Player::hasWeapon()
 {
 	bool hasWeapon = false;
@@ -175,12 +192,18 @@ void Player::equipWeapon()
 
 		vector<Item*>::iterator iter;
 
+		if (hasWeaponEquiped())
+		{
+			unequipWeapon();
+		}
 		for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 		{
 			if ((*iter)->getName() == theChoice)
-			{
+			{				
 				m_EquipedWeapon = *iter;
+				m_Inventory.erase(iter);
 				cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
+				break;
 			}
 		}
 
@@ -194,6 +217,7 @@ void Player::equipWeapon()
 void Player::unequipWeapon()
 {
 	cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
+	m_Inventory.push_back(m_EquipedWeapon);
 	m_EquipedWeapon = 0;
 }
 

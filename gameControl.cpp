@@ -17,13 +17,15 @@ void GameControl::info()
 
 void GameControl::loop(Map* theMap)
 {
+	gameOver = false;
+	m_TheMap = theMap;
 	string theChoice;
 
 	cout << "--------------------------------" << endl;
 	theMap->getPlayerLoc()->getDesc();
 	cout << "--------------------------------" << endl;
 
-	while (theChoice != "QUIT")
+	while (!gameOver)
 	{	
 		cin >> theChoice;
 
@@ -117,6 +119,10 @@ void GameControl::loop(Map* theMap)
 			{
 				theMap->getPlayer()->attack();
 			}
+			if (theMap->getPlayer()->getHealth() <= 0)
+			{
+				gameOver = true;
+			}
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "SHOWHEALTH")
@@ -125,7 +131,11 @@ void GameControl::loop(Map* theMap)
 			theMap->getPlayer()->showHealth();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice != "QUIT")
+		else if (theChoice == "QUIT")
+		{
+			gameOver = true;
+		}
+		else
 		{
 			cout << "--------------------------------" << endl;
 			cout << "I do not recognize that command" << endl;
@@ -133,4 +143,25 @@ void GameControl::loop(Map* theMap)
 		}
 	}
 
+	playerDead();
+
+	cout << "Thanks for playing!" << endl;
+
+}
+
+void GameControl::playerDead()
+{
+	string answer;
+	cout << "Would you like to play again?(y/n): ";
+	cin >> answer;
+	
+	answer = toupper(answer[0]);
+
+	if (answer[0] == 'Y')
+	{
+		m_TheMap->~Map();
+		cout << "--------------------------------" << endl;
+		Map map;
+		loop(&map);
+	}
 }

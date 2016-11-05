@@ -21,4 +21,7 @@ public:
 private:
 	Player* m_pPlayer;
 	Room* m_pPlayerLoc;
+	vector<Room*> m_AllRooms;
+	vector<Item*> m_AllItems;
+	vector<Enemy*> m_AllEnemies;
 };
