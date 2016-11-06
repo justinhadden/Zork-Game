@@ -10,9 +10,9 @@ void GameControl::info()
 	cout << "'Take' - picks up an item from the ground" << endl;
 	cout << "'Equip' - equip weapon" << endl;
 	cout << "'Character Inventory' - get information about your character" << endl;
-	cout << "'Attack' - attacks the enemy in the room" << endl;
+	cout << "'Attack' - attack an enemy in the room" << endl;
 	cout << "'Use' - uses an item" << endl;
-	cout << "'Quit' - quits the game" << endl;
+	cout << "'Quit' - quits the game/allows a restart" << endl;
 }
 
 void GameControl::loop(Map* theMap)

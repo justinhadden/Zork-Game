@@ -1,8 +1,9 @@
 #include "enemy.h"
 
-Enemy::Enemy(const string& name, const string& desc, int health, int attack)
+Enemy::Enemy(const string& name, const string& desc, const string& shortDesc, int health, int attack)
 	: m_Name(name)
 	, m_Desc(desc)
+	, m_ShortDesc(shortDesc)
 	, m_Health(health)
 	, m_Attack(attack)
 {}
@@ -15,6 +16,11 @@ string Enemy::getName()
 string Enemy::getDesc()
 {
 	return m_Desc;
+}
+
+string Enemy::getShortDesc()
+{
+	return m_ShortDesc;
 }
 
 int Enemy::getAttack()

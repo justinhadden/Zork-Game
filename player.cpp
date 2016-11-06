@@ -54,7 +54,10 @@ bool Player::hasItem(string theChoice)
 			found = true;
 		}
 	}
-
+	if (m_EquipedWeapon->getName() == theChoice)
+	{
+		found = true;
+	}
 	if (!found)
 	{
 		cout << "You do not have that item." << endl;
@@ -88,18 +91,14 @@ Item* Player::dropItem(string dropThis)
 {
 	vector<Item*>::iterator iter;
 	Item* item;
-
+	if (dropThis == m_EquipedWeapon->getName())
+	{
+		unequipWeapon();
+	}
 	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 	{
 		if ((*iter)->getName() == dropThis)
 		{
-			if (hasWeapon())
-			{
-				if ((*iter)->getDesc() == m_EquipedWeapon->getDesc())
-				{
-					unequipWeapon();
-				}
-			}
 			item = *iter;
 			m_Inventory.erase(iter);
 			cout << item->getDesc() << " removed from inventory." << endl;
@@ -142,6 +141,11 @@ int Player::getInvCount()
 void Player::setInvCount(int set)
 {
 	m_InvCount += set;
+}
+
+void Player::setMaxInv(int set)
+{
+	m_MaxInv += set;
 }
 
 bool Player::hasWeapon()
@@ -203,6 +207,7 @@ void Player::equipWeapon()
 				m_EquipedWeapon = *iter;
 				m_Inventory.erase(iter);
 				cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
+				m_InvCount -= 1;
 				break;
 			}
 		}
@@ -218,6 +223,7 @@ void Player::unequipWeapon()
 {
 	cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
 	m_Inventory.push_back(m_EquipedWeapon);
+	m_InvCount += 1;
 	m_EquipedWeapon = 0;
 }
 

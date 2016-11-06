@@ -26,6 +26,7 @@ public:
 	int getInvCount();
 	int getMaxInv();
 	void setInvCount(int set);
+	void setMaxInv(int set);
 
 private:
 	int m_InvCount;

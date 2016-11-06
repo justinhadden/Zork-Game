@@ -166,11 +166,21 @@ Item* Room::getItem(string name)
 	return item;
 }
 
-Enemy* Room::getEnemy()
+Enemy* Room::getEnemy(string thisOne)
 {
-	Enemy* enemy = m_Enemies[0];
-
-	m_Enemies.erase(m_Enemies.begin());
+	vector<Enemy*>::iterator iter;
+	Enemy* enemy = 0;
+	bool found = false;
+	for (iter = m_Enemies.begin(); iter != m_Enemies.end(); ++iter)
+	{
+		if ((*iter)->getName() == thisOne)
+		{
+			enemy = *iter;
+			m_Enemies.erase(iter);
+			found = true;
+			break;
+		}
+	}
 
 	return enemy;
 }

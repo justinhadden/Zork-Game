@@ -24,7 +24,7 @@ public:
 	void inspect();
 	void listEnemies();
 	bool hasEnemies();
-	Enemy* getEnemy();
+	Enemy* getEnemy(string thisOne);
 
 private:
 	vector<Enemy*> m_Enemies;
