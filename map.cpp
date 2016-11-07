@@ -6,6 +6,8 @@ Map::Map()
 	m_AllRooms.push_back(field);
 	Item* key = new Item("KEY", "KEY", "An old key(key)");
 	m_AllItems.push_back(key);
+	Item* armor = new Item("PLATE", "ARMOR", "A set of platemail(plate)", "platemail", 5);
+	m_AllItems.push_back(armor);
 
 	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.", "It's hard to see but you can make out a\nbloody mess on the ground.");
 	m_AllRooms.push_back(forest);
@@ -99,7 +101,7 @@ Map::Map()
 	Item* fireStaff = new Item("FIRESTAFF", "WEAPON", "A staff of firebolts(firestaff)", "firestaff", 7);
 	m_AllItems.push_back(fireStaff);
 
-	Room* space = new Room("A portal leading to the unknown", "You are in space. This is bad. Also the end.", "Seriously...    this is the end. Good job.");
+	Room* space = new Room("A portal leading to the unknown", "You are in space. This is bad. Also the end.", "Seriously...    this is the end.\n\nGood job.\n");
 	m_AllRooms.push_back(space);
 
 	Item* healthPotion1 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
@@ -113,6 +115,7 @@ Map::Map()
 
 	//Adding items to rooms
 	field->addItem(key);
+	field->addItem(armor);
 	forest->addItem(note);
 	mountain->addItem(rock);
 	mountain->addItem(pickaxe);
@@ -285,6 +288,10 @@ void Map::look()
 	if (m_pPlayerLoc->getName() == "more hedge Maze")
 	{
 		cout << "You just see hedge maze in every direction. Sucks to suck." << endl;
+	}
+	else if (m_pPlayerLoc->getName() == "A portal leading to the unknown")
+	{
+		cout << "You are in space. Enjoy no gravity...      and a cold icy death.\n\nThe end\n" << endl;
 	}
 	else
 	{
@@ -572,7 +579,7 @@ void Map::attackEnemy()
 				enemy->damage(attack * attackMod);
 
 				cout << "You attack the " << enemy->getShortDesc() << " for " << attack * attackMod << " damage." << endl;
-				if (!m_pPlayer->hasWeaponEquiped())
+				if (!m_pPlayer->hasWeaponEquiped() && !m_pPlayer->hasArmorEquiped())
 				{
 					cout << "You hurt your fists" << endl;
 					m_pPlayer->damage(5);
@@ -585,7 +592,7 @@ void Map::attackEnemy()
 				else if (enemy->getHealth() > 0)
 				{
 					m_pPlayer->damage(enemy->getAttack());
-					cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() << " damage." << endl;
+					cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() - m_pPlayer->getArmorMod() << " damage." << endl;
 					cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
 				}
 				if (m_pPlayer->getHealth() <= 0)

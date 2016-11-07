@@ -1,11 +1,11 @@
 #include "item.h"
 
-Item::Item(const string& name, const string& type, const string& desc, const string& shortDesc, int attackMod, const string& scribe)
+Item::Item(const string& name, const string& type, const string& desc, const string& shortDesc, int mod, const string& scribe)
 	: m_Name(name)
 	, m_Type(type)
 	, m_Desc(desc)
 	, m_ShortDesc(shortDesc)
-	, m_AttackMod(attackMod)
+	, m_Mod(mod)
 	, m_Scribe(scribe)
 {}
 
@@ -34,7 +34,7 @@ string Item::getScribe()
 	return m_Scribe;
 }
 
-int Item::getAttackMod()
+int Item::getMod()
 {
-	return m_AttackMod;
+	return m_Mod;
 }

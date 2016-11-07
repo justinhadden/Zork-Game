@@ -6,13 +6,13 @@ using namespace std;
 class Item
 {
 public:
-	Item(const string& name = "", const string& type = "", const string& desc = "", const string& shortDesc = "", int attackMod = 0, const string& scribe = "");
+	Item(const string& name = "", const string& type = "", const string& desc = "", const string& shortDesc = "", int mod = 0, const string& scribe = "");
 	string getName();
 	string getType();
 	string getDesc();
 	string getShortDesc();
 	string getScribe();
-	int getAttackMod();
+	int getMod();
 
 private:
 	string m_Name;
@@ -20,6 +20,6 @@ private:
 	string m_Desc;
 	string m_ShortDesc;
 	string m_Scribe;
-	int m_AttackMod;
+	int m_Mod;
 
 };

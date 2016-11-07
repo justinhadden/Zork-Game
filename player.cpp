@@ -3,6 +3,7 @@
 Player::Player(string name)
 	: m_Name(name)
 	, m_EquipedWeapon(0)
+	, m_EquipedArmor(0)
 	, m_InvCount(0)
 {}
 
@@ -36,7 +37,16 @@ void Player::lookInv()
 	else
 	{
 		cout << "Equiped weapon: " << m_EquipedWeapon->getDesc() << endl;
-		cout << "Attack: " << (getAttack() * m_EquipedWeapon->getAttackMod()) << endl;
+		cout << "Attack: " << (getAttack() * m_EquipedWeapon->getMod()) << endl;
+	}
+	if (m_EquipedArmor == 0)
+	{
+		cout << "No armor equiped." << endl;
+	}
+	else
+	{
+		cout << "Equiped armor: " << m_EquipedArmor->getDesc() << endl;
+		cout << "Armor: " << m_EquipedArmor->getMod() << endl;
 	}
 	cout << "Health: " << getHealth() << endl;
 	cout << "Inventory Slots: " << m_MaxInv << endl;
@@ -54,9 +64,16 @@ bool Player::hasItem(string theChoice)
 			found = true;
 		}
 	}
-	if (hasWeapon())
+	if (hasWeapon() && !found)
 	{
 		if (m_EquipedWeapon->getName() == theChoice)
+		{
+			found = true;
+		}
+	}
+	if (hasArmor() && !found)
+	{
+		if (m_EquipedArmor->getName() == theChoice)
 		{
 			found = true;
 		}
@@ -96,7 +113,11 @@ Item* Player::dropItem(string dropThis)
 	Item* item;
 	if (dropThis == m_EquipedWeapon->getName())
 	{
-		unequipWeapon();
+		unequip(1);
+	}
+	else if (dropThis == m_EquipedArmor->getName())
+	{
+		unequip(0);
 	}
 	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
 	{
@@ -172,9 +193,37 @@ bool Player::hasWeapon()
 	return hasWeapon;
 }
 
+bool Player::hasArmor()
+{
+	bool hasArmor = false;
+
+	vector<Item*>::iterator iter;
+
+	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+	{
+		if ((*iter)->getType() == "ARMOR")
+		{
+			hasArmor = true;
+		}
+	}
+	return hasArmor;
+}
+
 bool Player::hasWeaponEquiped()
 {
 	if (m_EquipedWeapon == 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+bool Player::hasArmorEquiped()
+{
+	if (m_EquipedArmor == 0)
 	{
 		return false;
 	}
@@ -189,72 +238,108 @@ void Player::stashThis(Item* item)
 	m_Inventory.push_back(item);
 }
 
-void Player::equipWeapon()
+void Player::equip()
 {
-	if (hasWeapon())
+	if (hasWeapon() || hasArmor())
 	{
 		string theChoice;
-		cout << "Which weapon would you like to equip?: ";
+		cout << "What would you like to equip?: ";
 		cin >> theChoice;
 
 		for (int i = 0; i <= theChoice.length(); ++i)
 		{
 			theChoice[i] = toupper(theChoice[i]);
 		}
-
-		vector<Item*>::iterator iter;
-		bool found = hasWeapon();
-		if (found)
+		bool foundItem = hasItem(theChoice);
+		if (foundItem)
 		{
-			if (hasWeaponEquiped())
-			{
-				unequipWeapon();
-			}
-			for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
-			{
-				if ((*iter)->getName() == theChoice)
+			vector<Item*>::iterator iter;
+			if (getItem(theChoice)->getType() == "WEAPON")
+			{			
+				if (hasWeaponEquiped())
 				{
-					m_EquipedWeapon = *iter;
-					m_Inventory.erase(iter);
-					cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
-					m_InvCount -= 1;
-					break;
+					unequip(1);
+				}
+				for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+				{
+					if ((*iter)->getName() == theChoice)
+					{
+						m_EquipedWeapon = *iter;
+						m_Inventory.erase(iter);
+						cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
+						m_InvCount -= 1;
+						break;
+					}
+				}
+			}
+			else if (getItem(theChoice)->getType() == "ARMOR")
+			{
+				if (hasArmorEquiped())
+				{
+					unequip(0);
+				}
+				for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+				{
+					if ((*iter)->getName() == theChoice)
+					{
+						m_EquipedArmor = *iter;
+						m_Inventory.erase(iter);
+						cout << m_EquipedArmor->getDesc() << " has been equiped." << endl;
+						m_InvCount -= 1;
+						break;
+					}
 				}
 			}
 		}
 		else
 		{
-			cout << "You do not have that weapon." << endl;
+			cout << "You don't have that item." << endl;
 		}
 
 	}
 	else
 	{
-		cout << "You don't have a weapon" << endl;
+		cout << "You don't have anything to equip" << endl;
 	}
 }
 
-void Player::unequipWeapon()
+void Player::unequip(int choice)
 {
-	if (m_InvCount >= m_MaxInv)
+	if (choice == 1)
 	{
-		cout << "You don't have room in your inventory to sheath your weapon." << endl;
+		if (m_InvCount >= m_MaxInv)
+		{
+			cout << "You don't have room in your inventory to sheath your weapon." << endl;
+		}
+		else
+		{
+			cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
+			m_Inventory.push_back(m_EquipedWeapon);
+			m_InvCount += 1;
+			m_EquipedWeapon = 0;
+		}
 	}
 	else
 	{
-		cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
-		m_Inventory.push_back(m_EquipedWeapon);
-		m_InvCount += 1;
-		m_EquipedWeapon = 0;
+		if (m_InvCount >= m_MaxInv)
+		{
+			cout << "You don't have room in your inventory to remove your armor." << endl;
+		}
+		else
+		{
+			cout << "You have removed your " << m_EquipedWeapon->getShortDesc() << endl;
+			m_Inventory.push_back(m_EquipedArmor);
+			m_InvCount += 1;
+			m_EquipedArmor = 0;
+		}
 	}
-	
 }
 
 void Player::showAttack()
 {
 	if (m_EquipedWeapon != 0)
 	{
-		cout << m_Attack * m_EquipedWeapon->getAttackMod() << endl;
+		cout << m_Attack * m_EquipedWeapon->getMod() << endl;
 	}
 	else
 	{
@@ -265,12 +350,19 @@ void Player::showAttack()
 void Player::showHealth()
 {
 	cout << m_health << endl;
-
 }
 
 void Player::damage(int damage)
 {
-	m_health -= damage;
+	if (damage > 0)
+	{
+		damage -= m_EquipedArmor->getMod();
+		m_health -= damage;
+	}
+	else
+	{
+		m_health -= damage;
+	}	
 	if (m_health > 100)
 	{
 		m_health = 100;
@@ -289,7 +381,12 @@ int Player::getHealth()
 
 int Player::getAttackMod()
 {
-	return m_EquipedWeapon->getAttackMod();
+	return m_EquipedWeapon->getMod();
+}
+
+int Player::getArmorMod()
+{
+	return m_EquipedArmor->getMod();
 }
 
 void Player::attack()

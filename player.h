@@ -18,8 +18,14 @@ public:
 	//weapons
 	bool hasWeapon();
 	bool hasWeaponEquiped();
-	void equipWeapon();
-	void unequipWeapon();
+
+	//armor/weapon
+	void equip();
+	void unequip(int choice);
+
+	//armor
+	bool hasArmor();
+	bool hasArmorEquiped();
 
 	//attack stuff
 	int getAttack();	
@@ -27,6 +33,7 @@ public:
 	void damage(int damage);
 	void attack();
 	int getAttackMod();
+	int getArmorMod();
 
 	//inventory
 	void lookInv();
@@ -44,6 +51,7 @@ private:
 	vector<Item*> m_Inventory;
 	string m_Name;
 	Item* m_EquipedWeapon;
+	Item* m_EquipedArmor;
 	int m_Attack = 10;
 	int m_health = 100;
 };

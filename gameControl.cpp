@@ -93,7 +93,7 @@ void GameControl::loop(Map* theMap)
 		else if (theChoice == "EQP" || theChoice == "EQUIP")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->getPlayer()->equipWeapon();
+			theMap->getPlayer()->equip();
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "SHOWATTACK")
@@ -105,7 +105,27 @@ void GameControl::loop(Map* theMap)
 		else if (theChoice == "UNEQUIP")
 		{
 			cout << "--------------------------------" << endl;
-			theMap->getPlayer()->unequipWeapon();
+			cout << "Remove armor or sheath weapon?(armor/weapon): ";
+			cin >> theChoice;
+
+			for (int i = 0; i < theChoice.length(); ++i)
+			{
+				theChoice[i] = toupper(theChoice[i]);
+			}
+
+			if (theChoice == "ARMOR")
+			{
+				theMap->getPlayer()->unequip(0);
+			}
+			else if (theChoice == "WEAPON")
+			{
+				theMap->getPlayer()->unequip(0);
+			}
+			else
+			{
+				cout << "--------------------------------" << endl;
+				cout << "I do not recognize that command" << endl;
+			}
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "A" || theChoice == "ATTACK")
