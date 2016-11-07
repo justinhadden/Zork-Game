@@ -4,29 +4,39 @@ class Player
 {
 public:
 	Player(string name = "");
-	void pick(Item* takeThis);
-	void lookInv();
+	void pick(Item* takeThis);	
 	bool use(string useThis);
 	bool hasItem(string haveThis);
 	Item* dropItem(string dropThis);
 	Item* getItem(string getThis);
+	Item* getWeapon();
 	string getName();
-	int getAttack();
-	int getHealth();
+
+	int getHealth();	
+	void showHealth();
+
+	//weapons
 	bool hasWeapon();
 	bool hasWeaponEquiped();
-	void stashThis(Item* item);
 	void equipWeapon();
 	void unequipWeapon();
+
+	//attack stuff
+	int getAttack();	
 	void showAttack();
-	void showHealth();
 	void damage(int damage);
 	void attack();
 	int getAttackMod();
+
+	//inventory
+	void lookInv();
 	int getInvCount();
 	int getMaxInv();
 	void setInvCount(int set);
 	void setMaxInv(int set);
+
+	//for testing
+	void stashThis(Item* item);
 
 private:
 	int m_InvCount;
@@ -34,6 +44,6 @@ private:
 	vector<Item*> m_Inventory;
 	string m_Name;
 	Item* m_EquipedWeapon;
-	int m_Attack = 25;
+	int m_Attack = 10;
 	int m_health = 100;
 };

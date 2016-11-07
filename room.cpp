@@ -1,8 +1,9 @@
 #include "room.h"
 
-Room::Room(const string& name, const string& desc, bool isLocked, string lockType)
+Room::Room(const string& name, const string& desc, const string& area, bool isLocked, string lockType)
 	: m_Name(name)
 	, m_Desc(desc)
+	, m_AreaDesc(area)
 	, m_Locked(isLocked)
 	, m_LockType(lockType)
 {}
@@ -18,6 +19,11 @@ void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)
 void Room::getDesc()
 {
 	cout << m_Desc << endl;
+}
+
+string Room::getAreaDesc()
+{
+	return m_AreaDesc;
 }
 
 string Room::getName(string addThis)
@@ -66,9 +72,10 @@ Room* Room::getAdjRooms(int index)
 void Room::inspect()
 {
 	vector<Item*>::iterator iter;
+	cout << m_AreaDesc << endl;
 	if (m_Items.empty())
 	{
-		cout << "Nothing here" << endl;
+		cout << "There are no items here" << endl;
 	}
 	else
 	{

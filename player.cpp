@@ -31,7 +31,7 @@ void Player::lookInv()
 	if (m_EquipedWeapon == 0)
 	{
 		cout << "No weapon equiped." << endl;
-		cout << "Attack: 25" << endl;
+		cout << "Attack: " << m_Attack << endl;
 	}
 	else
 	{
@@ -54,9 +54,12 @@ bool Player::hasItem(string theChoice)
 			found = true;
 		}
 	}
-	if (m_EquipedWeapon->getName() == theChoice)
+	if (hasWeapon())
 	{
-		found = true;
+		if (m_EquipedWeapon->getName() == theChoice)
+		{
+			found = true;
+		}
 	}
 	if (!found)
 	{
@@ -121,6 +124,11 @@ Item* Player::getItem(string getThis)
 	}
 
 	return item;
+}
+
+Item * Player::getWeapon()
+{
+	return m_EquipedWeapon;
 }
 
 string Player::getName()
@@ -195,21 +203,28 @@ void Player::equipWeapon()
 		}
 
 		vector<Item*>::iterator iter;
-
-		if (hasWeaponEquiped())
+		bool found = hasWeapon();
+		if (found)
 		{
-			unequipWeapon();
-		}
-		for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
-		{
-			if ((*iter)->getName() == theChoice)
-			{				
-				m_EquipedWeapon = *iter;
-				m_Inventory.erase(iter);
-				cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
-				m_InvCount -= 1;
-				break;
+			if (hasWeaponEquiped())
+			{
+				unequipWeapon();
 			}
+			for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
+			{
+				if ((*iter)->getName() == theChoice)
+				{
+					m_EquipedWeapon = *iter;
+					m_Inventory.erase(iter);
+					cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
+					m_InvCount -= 1;
+					break;
+				}
+			}
+		}
+		else
+		{
+			cout << "You do not have that weapon." << endl;
 		}
 
 	}
@@ -221,10 +236,18 @@ void Player::equipWeapon()
 
 void Player::unequipWeapon()
 {
-	cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
-	m_Inventory.push_back(m_EquipedWeapon);
-	m_InvCount += 1;
-	m_EquipedWeapon = 0;
+	if (m_InvCount >= m_MaxInv)
+	{
+		cout << "You don't have room in your inventory to sheath your weapon." << endl;
+	}
+	else
+	{
+		cout << "You have sheathed your " << m_EquipedWeapon->getShortDesc() << endl;
+		m_Inventory.push_back(m_EquipedWeapon);
+		m_InvCount += 1;
+		m_EquipedWeapon = 0;
+	}
+	
 }
 
 void Player::showAttack()
@@ -242,11 +265,16 @@ void Player::showAttack()
 void Player::showHealth()
 {
 	cout << m_health << endl;
+
 }
 
 void Player::damage(int damage)
 {
 	m_health -= damage;
+	if (m_health > 100)
+	{
+		m_health = 100;
+	}
 }
 
 int Player::getAttack()

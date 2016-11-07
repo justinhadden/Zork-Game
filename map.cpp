@@ -2,48 +2,77 @@
 
 Map::Map()
 {
-	Room* field = new Room("a field", "You are standing in an open field.");
+	Room* field = new Room("a field", "You are standing in an open field.", "You see a grassy field full of grasshoppers and birds\nchirping as they are flying by.");
 	m_AllRooms.push_back(field);
 	Item* key = new Item("KEY", "KEY", "An old key(key)");
 	m_AllItems.push_back(key);
 
-	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.");
+	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.", "It's hard to see but you can make out a\nbloody mess on the ground.");
 	m_AllRooms.push_back(forest);
+	Item* note = new Item("NOTE", "NOTE", "A note covered in blood(note)", "note", 0, "Today we encountered the horrible goblin that stole the gate key to the castle.\nHe has taken refuge in an old cabin to the north.\nOne by one my collegues fell to his crude axe.\nI'm going to journey south and see if I can find the famed\nbattle axe of killinating to defeat him.\nIf I don't return, please tell my king of\nthe courage and loyalty I had in pursing his will.");
+	m_AllItems.push_back(note);
 
-	Room* oldcabin = new Room("an Old Cabin", "You are in the forest next to an old cabin.");
+	Room* moreForest = new Room("a blood trail", "You travel deeper into the forest.", "You see a bloody trail heading south");
+	m_AllRooms.push_back(moreForest);
+
+	Room* southForest = new Room("a bloodtrail", "You and at the southern end of the forest.", "The forest seems to open up to the west and south.\nThe bloody trail heads west.");
+	m_AllRooms.push_back(southForest);
+
+	Room* canyon = new Room("a canyon", "You are standing at the edge of a steep canyon.", "You look down the canyon and can make out\nsomething stiny at the bottom.\nBut it's probably at least 200ft down.");
+	m_AllRooms.push_back(canyon);
+
+	Room* caveEntrance = new Room("the entrance to a cave", "You are at the entrance to a cave.", "There is an old man with a long beard standing at the intrance.\nHe says the tha answer to the riddle will get you\nwhat you seek then throws a small note at you.");
+	m_AllRooms.push_back(caveEntrance);
+	Item* riddleNote = new Item("RIDDLE", "NOTE", "A note with a riddle(riddle)", "note", 0, "I have lots to say but never speak, I open but you cannot\nwalk through me, I have a spine but no bones.");
+
+	Room* cave = new Room("a cave", "You are standing in the cave.", "There are a few items on the ground.\nThe riddle probably will tell you which item to pick up.\nThe knight looks like she chose the wrong item.\nBy that I mean she is very dead.");
+	m_AllRooms.push_back(cave);
+	Item* book = new Item("BOOK", "CORRECT", "A book with weird symbols on the cover(book)");
+	m_AllItems.push_back(book);
+	Item* hourGlass = new Item("HOURGLASS", "DIE", "An hourglass dripping sand(hourglass)");
+	m_AllItems.push_back(hourGlass);
+	Item* skull = new Item("SKULL", "DIE", "A white skull with it's mouth agage(skull)");
+	m_AllItems.push_back(skull);
+	Item* painting = new Item("PAINTING", "DIE", "A painting of an old women(painting)");
+	m_AllItems.push_back(painting);
+
+	Room* treasureRoom = new Room("a treasure room", "You are in the treasure room of the cave.", "There is a weapon stand hold an impressive looking battleaxe.", true, "BOOK");
+	m_AllRooms.push_back(treasureRoom);
+	Item* battleaxe = new Item("BATTLEAXE", "WEAPON", "The Battleaxe of Killinating(battleaxe)", "battleaxe", 5);
+	m_AllItems.push_back(battleaxe);
+
+	Room* oldcabin = new Room("an Old Cabin", "You are in the forest next to an old cabin.", "In this thick forest you see an old cabin\nthat is being occupied by the goblin.");
 	m_AllRooms.push_back(oldcabin);
 	Enemy* goblin = new Enemy("GOBLIN", "A disgusting looking goblin with a crude axe(goblin)", "goblin", 200, 25);
 	m_AllEnemies.push_back(goblin);
 	Item* gateKey = new Item("GATEKEY", "KEY", "The Gate Key(gatekey)");
 	m_AllItems.push_back(gateKey);
 
-	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.");
+	Room* mountain = new Room("a Mountain", "You are at the foot of a giant mountain.", "At the foot of the mountain it appears miners\nhave been picking away at the stone.");
 	m_AllRooms.push_back(mountain);
 	Item* rock = new Item("ROCK", "ROCK", "A small rock(rock)");
 	m_AllItems.push_back(rock);
 	Item* pickaxe = new Item("PICKAXE", "WEAPON", "A rusty pickaxe(pickaxe)", "pickaxe", 2);
 	m_AllItems.push_back(pickaxe);
 
-	Room* swamp = new Room("a Swamp", "You are in a nasty swamp surrounded by flies.");
+	Room* swamp = new Room("a Swamp", "You are in a nasty swamp surrounded by flies.", "This nasty swamp is so smelly but this stump\nlooks like someone has stashed somthing in it.");
 	m_AllRooms.push_back(swamp);
 	Item* mudball = new Item("MUDBALL", "MUDBALL", "A nasty ball of mud(mudball)");
 	m_AllItems.push_back(mudball);
 	Enemy* stump = new Enemy("STUMP", "A regular tree stump(stump)", "stump", 200, 0);
 	m_AllEnemies.push_back(stump);
-	Item* battleaxe = new Item("BATTLEAXE", "WEAPON", "A huge battleaxe(battleaxe)", "battleaxe", 3.25);
-	m_AllItems.push_back(battleaxe);
 
-	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.");
+	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.", "The castle gates look old but the old\nlock still looks strong.");
 	m_AllRooms.push_back(castleGates);
 
-	Room* courtyard = new Room("a Courtyard behind castle gates", "You are in the courtyard of the castle", true, "GATEKEY");
+	Room* courtyard = new Room("a Courtyard behind castle gates", "You are in the courtyard of the castle", "This courtyard looks like is used to be a busy place.", true, "GATEKEY");
 	m_AllRooms.push_back(courtyard);
-	Item* sword = new Item("SWORD", "WEAPON", "A magical sword(sword)", "magic sword", 3);
+	Item* sword = new Item("SWORD", "WEAPON", "A magical sword(sword)", "magic sword", 6);
 	m_AllItems.push_back(sword);
 	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
 	m_AllItems.push_back(gold);
 
-	Room* castleHall = new Room("a Throne Room", "You are standing in an abandoned throne room.");
+	Room* castleHall = new Room("a Throne Room", "You are standing in an abandoned throne room.", "This throne room doesn't look like it's in as\nbad of shape as the rest of the castle.");
 	m_AllRooms.push_back(castleHall);
 	Enemy* skeleton = new Enemy("SKELETON", "An armored skeleton warrior(skeleton)", "skeleton", 300, 20);
 	m_AllEnemies.push_back(skeleton);
@@ -52,25 +81,25 @@ Map::Map()
 	Item* bag = new Item("BAG", "BAG", "A bag of holding(bag)", "bag", 3);
 	m_AllItems.push_back(bag);
 
-	Room* hedgeMaze1 = new Room("a hedge Maze", "You are at the begining of a hedge maze.");
+	Room* hedgeMaze1 = new Room("a hedge Maze", "You are at the begining of a hedge maze.", "This hedgemaze is pretty overgrown.");
 	m_AllRooms.push_back(hedgeMaze1);
-	Room* hedgeMaze2 = new Room("more hedge Maze", "You are standing in a hedge maze.");
+	Room* hedgeMaze2 = new Room("more hedge Maze", "You are standing in a hedge maze.", "You can't tell any difference in the hedgemaze");
 	m_AllRooms.push_back(hedgeMaze2);
-	Room* hedgeMaze3 = new Room("more hedge Maze", "You are standing in a hedge maze.");
+	Room* hedgeMaze3 = new Room("more hedge Maze", "You are standing in a hedge maze.", "You can't tell any difference in the hedgemaze");
 	m_AllRooms.push_back(hedgeMaze3);
-	Room* hedgeMaze4 = new Room("more hedge Maze", "You are standing in a hedge maze.");
+	Room* hedgeMaze4 = new Room("more hedge Maze", "You are standing in a hedge maze.", "You can't tell any difference in the hedgemaze");
 	m_AllRooms.push_back(hedgeMaze4);
-	Room* hedgeMaze5 = new Room("more hedge Maze", "You are standing at what appears to be the end of the hedgemaze.");
+	Room* hedgeMaze5 = new Room("more hedge Maze", "You are standing at what appears to be the end of the hedgemaze.", "There is a pedestal standing with a\nbust of what could be the king.");
 	m_AllRooms.push_back(hedgeMaze5);
 	Item* magicScroll = new Item("SCROLL", "KEY", "A scroll that is glowing with magic(scroll)");
 	m_AllItems.push_back(magicScroll);
 
-	Room* magicRoom = new Room("a Magical Barrier", "You are standing in a old magicians study. There is a portal westward.", true, "SCROLL");
+	Room* magicRoom = new Room("a Magical Barrier", "You are standing in a old magicians study. There is a portal westward.", "Looks like this place is definitely lived in.\nThe torches are still warm.", true, "SCROLL");
 	m_AllRooms.push_back(magicRoom);
-	Item* fireStaff = new Item("FIRESTAFF", "WEAPON", "A staff of firebolts(firestaff)", "firestaff", 4);
+	Item* fireStaff = new Item("FIRESTAFF", "WEAPON", "A staff of firebolts(firestaff)", "firestaff", 7);
 	m_AllItems.push_back(fireStaff);
 
-	Room* space = new Room("A portal leading to the unknown", "You are in space. This is bad. Also the end.");
+	Room* space = new Room("A portal leading to the unknown", "You are in space. This is bad. Also the end.", "Seriously...    this is the end. Good job.");
 	m_AllRooms.push_back(space);
 
 	Item* healthPotion1 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
@@ -79,10 +108,12 @@ Map::Map()
 	m_AllItems.push_back(healthPotion2);
 	Item* healthPotion3 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
 	m_AllItems.push_back(healthPotion3);
-
+	Item* healthPotion4 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
+	m_AllItems.push_back(healthPotion4);
 
 	//Adding items to rooms
 	field->addItem(key);
+	forest->addItem(note);
 	mountain->addItem(rock);
 	mountain->addItem(pickaxe);
 	swamp->addItem(mudball);
@@ -92,9 +123,15 @@ Map::Map()
 	hedgeMaze5->addItem(healthPotion1);
 	magicRoom->addItem(fireStaff);
 	magicRoom->addItem(healthPotion2);
+	caveEntrance->addItem(riddleNote);
+	cave->addItem(book);
+	cave->addItem(hourGlass);
+	cave->addItem(skull);
+	cave->addItem(painting);
+	treasureRoom->addItem(battleaxe);
 
 	//Adding rewards for enemies
-	stump->setReward(battleaxe);
+	stump->setReward(healthPotion4);
 	goblin->setReward(gateKey);
 	skeleton->setReward(bag);
 	skeletonDog->setReward(healthPotion3);
@@ -107,7 +144,13 @@ Map::Map()
 
 	//Setting adjacent rooms for each room
 	field->setAdjRooms(mountain, forest, 0, 0);
-	forest->setAdjRooms(oldcabin, swamp, 0, field);
+	forest->setAdjRooms(oldcabin, swamp, moreForest, field);
+	moreForest->setAdjRooms(forest, 0, southForest, 0);
+	southForest->setAdjRooms(moreForest, 0, canyon, caveEntrance);
+	caveEntrance->setAdjRooms(0, southForest, 0, cave);
+	cave->setAdjRooms(0, caveEntrance, 0, treasureRoom); 
+	treasureRoom->setAdjRooms(0, cave, 0, 0);
+	canyon->setAdjRooms(southForest, 0, 0, 0);
 	oldcabin->setAdjRooms(0, castleGates, forest, mountain);
 	mountain->setAdjRooms(0, oldcabin, field, 0);
 	swamp->setAdjRooms(castleGates, 0, 0, forest);
@@ -251,7 +294,27 @@ void Map::look()
 
 void Map::inspect()
 {
-	m_pPlayerLoc->inspect();
+	if (m_pPlayerLoc->getName() == "a canyon")
+	{
+		string answer;
+		cout << m_pPlayerLoc->getAreaDesc() << endl;
+		cout << "Do you wanna jump down an try to get it?(y/n): ";
+		cin >> answer;
+		answer = toupper(answer[0]);
+		if (answer[0] == 'Y')
+		{
+			cout << "You try to jump down the 200ft canyon \nlike an idiot and die because gravity." << endl;
+			m_pPlayer->damage(100);
+		}
+		else
+		{
+			cout << "Wussy." << endl;
+		}
+	}
+	else
+	{
+		m_pPlayerLoc->inspect();
+	}
 }
 
 void Map::pick()
@@ -282,6 +345,16 @@ void Map::pick()
 			if (takeThis->getType() == "BAG")
 			{
 				m_pPlayer->setMaxInv(3);
+			}
+			if (takeThis->getType() == "DIE")
+			{
+				cout << "You feel funny. The world goes dark.\nYou are dead." << endl;
+				getPlayer()->damage(100);
+			}
+			if (takeThis->getType() == "CORRECT")
+			{
+				cout << "A hidden door to the west clicks open" << endl;
+				m_pPlayerLoc->getAdjRooms(3)->lockUnlock();
 			}
 		}
 	}
@@ -445,6 +518,11 @@ void Map::use()
 			m_pPlayer->damage(-100);
 			item = m_pPlayer->dropItem(useThis);
 			delete item;
+		}
+		else if (item->getType() == "NOTE")
+		{
+			cout << "The " << item->getShortDesc() << " reads: " << endl;
+			cout << item->getScribe() << endl;
 		}
 		else
 		{

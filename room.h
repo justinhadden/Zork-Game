@@ -6,7 +6,7 @@ using namespace std;
 class Room
 {
 public:
-	Room(const string& name = "", const string& desc = "", bool isLocked = false, string lockType = "");
+	Room(const string& name = "", const string& desc = "", const string& area = "", bool isLocked = false, string lockType = "");
 	void setAdjRooms(Room *north, Room *east, Room *south, Room *west);
 	Room* getAdjRooms(int index);
 	void addItem(Item* item);
@@ -15,6 +15,7 @@ public:
 	Item* getItem(string name);	
 	void look();
 	void getDesc();
+	string getAreaDesc();
 	string getName(string addThis = "");
 
 	bool isLocked();
@@ -32,6 +33,7 @@ private:
 	vector<Item*> m_Items;
 	string m_Name;
 	string m_Desc;
+	string m_AreaDesc;
 	bool m_Locked;
 	string m_LockType;
 };

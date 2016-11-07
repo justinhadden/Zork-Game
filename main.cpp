@@ -3,8 +3,8 @@
 int main()
 {
 	cout << "-----------Welcome to Zork-----------" << endl;
-	cout << "A fantastic adventure set in a creepy" << endl;
-	cout << "world filled with treasure and terrors" << endl;
+	cout << "A land where there are many ways to" << endl;
+	cout << "die and only a few ways to not die." << endl;
 	cout << "Will you be able to make it to the end?" << endl;
 	cout << "--------------------------------" << endl;
 	Map map;

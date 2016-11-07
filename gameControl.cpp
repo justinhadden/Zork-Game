@@ -25,7 +25,7 @@ void GameControl::loop(Map* theMap)
 	theMap->getPlayerLoc()->getDesc();
 	cout << "--------------------------------" << endl;
 
-	while (!gameOver)
+	while (!gameOver && m_TheMap->getPlayer()->getHealth() > 0)
 	{	
 		cin >> theChoice;
 
