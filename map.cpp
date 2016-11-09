@@ -6,8 +6,6 @@ Map::Map()
 	m_AllRooms.push_back(field);
 	Item* key = new Item("KEY", "KEY", "An old key(key)");
 	m_AllItems.push_back(key);
-	Item* armor = new Item("PLATE", "ARMOR", "A set of platemail(plate)", "platemail", 5);
-	m_AllItems.push_back(armor);
 
 	Room* forest = new Room("a Forest", "You are in a dark forest and can barely see.", "It's hard to see but you can make out a\nbloody mess on the ground.");
 	m_AllRooms.push_back(forest);
@@ -20,12 +18,18 @@ Map::Map()
 	Room* southForest = new Room("a bloodtrail", "You and at the southern end of the forest.", "The forest seems to open up to the west and south.\nThe bloody trail heads west.");
 	m_AllRooms.push_back(southForest);
 
-	Room* canyon = new Room("a canyon", "You are standing at the edge of a steep canyon.", "You look down the canyon and can make out\nsomething stiny at the bottom.\nBut it's probably at least 200ft down.");
+	Room* canyon = new Room("a canyon", "You are standing at the edge of a steep canyon.", "It's a long way down the canyon but the rope should help.");
 	m_AllRooms.push_back(canyon);
+	
+	Room* canyonFloor = new Room("the canyon floor", "You made it to the bottom of the road.", "Looks like a knight might have fallen down this canyon.", true, "ROPE");
+	m_AllRooms.push_back(canyonFloor);
+	Item* armor = new Item("PLATE", "ARMOR", "A set of platemail(plate)", "platemail", 5);
+	m_AllItems.push_back(armor);
 
 	Room* caveEntrance = new Room("the entrance to a cave", "You are at the entrance to a cave.", "There is an old man with a long beard standing at the intrance.\nHe says the tha answer to the riddle will get you\nwhat you seek then throws a small note at you.");
 	m_AllRooms.push_back(caveEntrance);
 	Item* riddleNote = new Item("RIDDLE", "NOTE", "A note with a riddle(riddle)", "note", 0, "I have lots to say but never speak, I open but you cannot\nwalk through me, I have a spine but no bones.");
+	m_AllItems.push_back(riddleNote);
 
 	Room* cave = new Room("a cave", "You are standing in the cave.", "There are a few items on the ground.\nThe riddle probably will tell you which item to pick up.\nThe knight looks like she chose the wrong item.\nBy that I mean she is very dead.");
 	m_AllRooms.push_back(cave);
@@ -63,6 +67,8 @@ Map::Map()
 	m_AllItems.push_back(mudball);
 	Enemy* stump = new Enemy("STUMP", "A regular tree stump(stump)", "stump", 200, 0);
 	m_AllEnemies.push_back(stump);
+	Item* rope = new Item("ROPE", "KEY", "A rope coil(rope)");
+	m_AllItems.push_back(rope);
 
 	Room* castleGates = new Room("the Castle Gates", "You are at the gates of a massive castle.", "The castle gates look old but the old\nlock still looks strong.");
 	m_AllRooms.push_back(castleGates);
@@ -110,12 +116,10 @@ Map::Map()
 	m_AllItems.push_back(healthPotion2);
 	Item* healthPotion3 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
 	m_AllItems.push_back(healthPotion3);
-	Item* healthPotion4 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
-	m_AllItems.push_back(healthPotion4);
+	
 
 	//Adding items to rooms
 	field->addItem(key);
-	field->addItem(armor);
 	forest->addItem(note);
 	mountain->addItem(rock);
 	mountain->addItem(pickaxe);
@@ -132,9 +136,10 @@ Map::Map()
 	cave->addItem(skull);
 	cave->addItem(painting);
 	treasureRoom->addItem(battleaxe);
+	canyonFloor->addItem(armor);
 
 	//Adding rewards for enemies
-	stump->setReward(healthPotion4);
+	stump->setReward(rope);
 	goblin->setReward(gateKey);
 	skeleton->setReward(bag);
 	skeletonDog->setReward(healthPotion3);
@@ -153,7 +158,8 @@ Map::Map()
 	caveEntrance->setAdjRooms(0, southForest, 0, cave);
 	cave->setAdjRooms(0, caveEntrance, 0, treasureRoom); 
 	treasureRoom->setAdjRooms(0, cave, 0, 0);
-	canyon->setAdjRooms(southForest, 0, 0, 0);
+	canyon->setAdjRooms(southForest, 0, canyonFloor, 0);
+	canyonFloor->setAdjRooms(canyon, 0, 0, 0);
 	oldcabin->setAdjRooms(0, castleGates, forest, mountain);
 	mountain->setAdjRooms(0, oldcabin, field, 0);
 	swamp->setAdjRooms(castleGates, 0, 0, forest);
@@ -303,19 +309,26 @@ void Map::inspect()
 {
 	if (m_pPlayerLoc->getName() == "a canyon")
 	{
-		string answer;
-		cout << m_pPlayerLoc->getAreaDesc() << endl;
-		cout << "Do you wanna jump down an try to get it?(y/n): ";
-		cin >> answer;
-		answer = toupper(answer[0]);
-		if (answer[0] == 'Y')
+		if (m_pPlayerLoc->getAdjRooms(2)->isLocked())
 		{
-			cout << "You try to jump down the 200ft canyon \nlike an idiot and die because gravity." << endl;
-			m_pPlayer->damage(100);
+			string answer;
+			cout << "You look down the canyon and can make out\nsomething stiny at the bottom.\nBut it's probably at least 200ft down." << endl;
+			cout << "Do you wanna jump down an try to get it?(y/n): ";
+			cin >> answer;
+			answer = toupper(answer[0]);
+			if (answer[0] == 'Y')
+			{
+				cout << "You try to jump down the 200ft canyon \nlike an idiot and die because gravity." << endl;
+				m_pPlayer->damage(100);
+			}
+			else
+			{
+				cout << "Wussy." << endl;
+			}
 		}
 		else
 		{
-			cout << "Wussy." << endl;
+			m_pPlayerLoc->inspect();
 		}
 	}
 	else
@@ -330,7 +343,7 @@ void Map::pick()
 	{
 		cout << "Your inventory is full" << endl;
 	}
-	else
+	else if (m_pPlayerLoc->roomHasItems())
 	{
 		string choice;
 		cout << "Take which item?: ";
@@ -364,6 +377,10 @@ void Map::pick()
 				m_pPlayerLoc->getAdjRooms(3)->lockUnlock();
 			}
 		}
+	}
+	else
+	{
+		cout << "Nothing here." << endl;
 	}
 }
 
@@ -417,6 +434,15 @@ void Map::use()
 			if (m_pPlayerLoc->hasEnemies())
 			{
 				cout << "Can't unlock doors with enemies nearby." << endl;
+			}
+			else if (item->getName() == "ROPE")
+			{
+				m_pPlayerLoc->getAdjRooms(2)->lockUnlock();
+				m_pPlayerLoc->getAdjRooms(2)->getName("(Roped)");
+				cout << "You threw down the rope." << endl;
+				m_pPlayer->dropItem(useThis);
+				delete item;
+				m_pPlayer->setInvCount(-1);
 			}
 			else
 			{

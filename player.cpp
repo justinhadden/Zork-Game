@@ -64,14 +64,14 @@ bool Player::hasItem(string theChoice)
 			found = true;
 		}
 	}
-	if (hasWeapon() && !found)
+	if (hasWeaponEquiped() && !found)
 	{
 		if (m_EquipedWeapon->getName() == theChoice)
 		{
 			found = true;
 		}
 	}
-	if (hasArmor() && !found)
+	if (hasArmorEquiped() && !found)
 	{
 		if (m_EquipedArmor->getName() == theChoice)
 		{
@@ -111,11 +111,11 @@ Item* Player::dropItem(string dropThis)
 {
 	vector<Item*>::iterator iter;
 	Item* item;
-	if (dropThis == m_EquipedWeapon->getName())
+	if (hasWeaponEquiped() && dropThis == m_EquipedWeapon->getName())
 	{
 		unequip(1);
 	}
-	else if (dropThis == m_EquipedArmor->getName())
+	else if (hasArmorEquiped() && dropThis == m_EquipedArmor->getName())
 	{
 		unequip(0);
 	}

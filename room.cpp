@@ -64,6 +64,18 @@ void Room::addEnemy(Enemy* enemy)
 	m_Enemies.push_back(enemy);
 }
 
+bool Room::roomHasItems()
+{
+	bool found = true;
+
+	if (m_Items.empty())
+	{
+		found = false;
+	}
+
+	return found;
+}
+
 Room* Room::getAdjRooms(int index)
 {
 	return m_AdjRooms[index];

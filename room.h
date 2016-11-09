@@ -11,6 +11,7 @@ public:
 	Room* getAdjRooms(int index);
 	void addItem(Item* item);
 	void addEnemy(Enemy* enemy);
+	bool roomHasItems();
 	bool hasItem(string name);
 	Item* getItem(string name);	
 	void look();
