@@ -4,12 +4,12 @@ void GameControl::info()
 {
 	cout << "'Help' - gives you your options" << endl;
 	cout << "'Look' - lets you look around" << endl;
-	cout << "'Info' - gets a discription of where you are" << endl;
+	cout << "'Info' - gets a short discription of where you are" << endl;
 	cout << "'North/East/South/West' - move around" << endl;
-	cout << "'Inspect' - looks for items on the ground" << endl;
+	cout << "'Inspect(i)' - get information about where you are and items there" << endl;
 	cout << "'Take' - picks up an item from the ground" << endl;
-	cout << "'Equip' - equip weapon" << endl;
-	cout << "'Character Inventory' - get information about your character" << endl;
+	cout << "'Equip' - equip weapon/armor" << endl;
+	cout << "'Character(c)' - get information about your character and inventory" << endl;
 	cout << "'Attack' - attack an enemy in the room" << endl;
 	cout << "'Use' - uses an item" << endl;
 	cout << "'Quit' - quits the game/allows a restart" << endl;

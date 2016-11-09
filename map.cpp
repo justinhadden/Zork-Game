@@ -37,12 +37,12 @@ Map::Map()
 	m_AllItems.push_back(book);
 	Item* hourGlass = new Item("HOURGLASS", "DIE", "An hourglass dripping sand(hourglass)");
 	m_AllItems.push_back(hourGlass);
-	Item* skull = new Item("SKULL", "DIE", "A white skull with it's mouth agage(skull)");
+	Item* skull = new Item("SKULL", "DIE", "A white skull with it's mouth agape(skull)");
 	m_AllItems.push_back(skull);
 	Item* painting = new Item("PAINTING", "DIE", "A painting of an old women(painting)");
 	m_AllItems.push_back(painting);
 
-	Room* treasureRoom = new Room("a treasure room", "You are in the treasure room of the cave.", "There is a weapon stand hold an impressive looking battleaxe.", true, "BOOK");
+	Room* treasureRoom = new Room("a treasure room", "You are in the treasure room of the cave.", "There is a weapon stand holding an impressive looking battleaxe.", true, "BOOK");
 	m_AllRooms.push_back(treasureRoom);
 	Item* battleaxe = new Item("BATTLEAXE", "WEAPON", "The Battleaxe of Killinating(battleaxe)", "battleaxe", 5);
 	m_AllItems.push_back(battleaxe);
@@ -312,7 +312,7 @@ void Map::inspect()
 		if (m_pPlayerLoc->getAdjRooms(2)->isLocked())
 		{
 			string answer;
-			cout << "You look down the canyon and can make out\nsomething stiny at the bottom.\nBut it's probably at least 200ft down." << endl;
+			cout << "You look down the canyon and can make out\nsomething shiny at the bottom.\nBut it's probably at least 200ft down." << endl;
 			cout << "Do you wanna jump down an try to get it?(y/n): ";
 			cin >> answer;
 			answer = toupper(answer[0]);

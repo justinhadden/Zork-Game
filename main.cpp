@@ -11,6 +11,7 @@ int main()
 	cout << "Good Luck, " << map.getName() << endl;
 	cout << "--------------------------------" << endl;
 	cout << "Type 'help' for a list of options" << endl;
+	cout << "'help' is very usful for when\nyou don't know what to do" << endl;
 	
 	GameControl gameCont;
 	gameCont.loop(&map);
