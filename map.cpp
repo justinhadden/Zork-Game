@@ -369,7 +369,7 @@ void Map::pick()
 			if (takeThis->getType() == "DIE")
 			{
 				cout << "You feel funny. The world goes dark.\nYou are dead." << endl;
-				getPlayer()->damage(100);
+				getPlayer()->damage(105);
 			}
 			if (takeThis->getType() == "CORRECT")
 			{
@@ -441,7 +441,6 @@ void Map::use()
 				m_pPlayerLoc->getAdjRooms(2)->getName("(Roped)");
 				cout << "You threw down the rope." << endl;
 				m_pPlayer->dropItem(useThis);
-				delete item;
 				m_pPlayer->setInvCount(-1);
 			}
 			else
@@ -476,7 +475,6 @@ void Map::use()
 							m_pPlayerLoc->getAdjRooms(0)->getName("(Opened)");
 							cout << "Door unlocked." << endl;
 							item = m_pPlayer->dropItem(useThis);
-							delete item;
 							m_pPlayer->setInvCount(-1);
 						}
 						else
@@ -492,7 +490,6 @@ void Map::use()
 							m_pPlayerLoc->getAdjRooms(1)->getName("(Opened)");
 							cout << "Door unlocked." << endl;
 							item = m_pPlayer->dropItem(useThis);
-							delete item;
 							m_pPlayer->setInvCount(-1);
 						}
 						else
@@ -508,7 +505,6 @@ void Map::use()
 							m_pPlayerLoc->getAdjRooms(2)->getName("(Opened)");
 							cout << "Door unlocked." << endl;
 							item = m_pPlayer->dropItem(useThis);
-							delete item;
 							m_pPlayer->setInvCount(-1);
 						}
 						else
@@ -524,7 +520,6 @@ void Map::use()
 							m_pPlayerLoc->getAdjRooms(3)->getName("(Opened)");
 							cout << "Door unlocked." << endl;
 							item = m_pPlayer->dropItem(useThis);
-							delete item;
 							m_pPlayer->setInvCount(-1);
 						}
 						else
@@ -550,7 +545,6 @@ void Map::use()
 			cout << "You feel rejuvenated!" << endl;
 			m_pPlayer->damage(-100);
 			item = m_pPlayer->dropItem(useThis);
-			delete item;
 		}
 		else if (item->getType() == "NOTE")
 		{
@@ -656,7 +650,6 @@ void Map::attackEnemy()
 		else
 		{
 			m_pPlayerLoc->addItem(enemy->getReward());
-			delete enemy;
 		}
 	}
 	else

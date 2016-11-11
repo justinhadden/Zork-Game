@@ -179,7 +179,7 @@ void GameControl::playerDead()
 
 	if (answer[0] == 'Y')
 	{
-		m_TheMap->~Map();
+		delete m_TheMap;
 		cout << "--------------------------------" << endl;
 		Map map;
 		loop(&map);

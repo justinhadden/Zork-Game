@@ -356,7 +356,10 @@ void Player::damage(int damage)
 {
 	if (damage > 0)
 	{
-		damage -= m_EquipedArmor->getMod();
+		if (hasArmorEquiped())
+		{
+			damage -= m_EquipedArmor->getMod();
+		}
 		m_health -= damage;
 	}
 	else
