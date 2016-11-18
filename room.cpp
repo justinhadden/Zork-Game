@@ -1,9 +1,10 @@
 #include "room.h"
 
-Room::Room(const string& name, const string& desc, const string& area, bool isLocked, string lockType)
+Room::Room(const string& name, const string& desc, const string& area, const string& itemLoc, bool isLocked, string lockType)
 	: m_Name(name)
 	, m_Desc(desc)
 	, m_AreaDesc(area)
+	, m_ItemLoc(itemLoc)
 	, m_Locked(isLocked)
 	, m_LockType(lockType)
 {}
@@ -91,7 +92,7 @@ void Room::inspect()
 	}
 	else
 	{
-		cout << "On the ground you see:" << endl;
+		cout << m_ItemLoc << endl;
 		for (iter = m_Items.begin(); iter != m_Items.end(); ++iter)
 		{
 			cout << (*iter)->getDesc() << endl;

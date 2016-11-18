@@ -15,7 +15,7 @@ void GameControl::info()
 	cout << "'Quit' - quits the game/allows a restart" << endl;
 }
 
-void GameControl::loop(Map* theMap)
+string GameControl::loop(Map* theMap)
 {
 	gameOver = false;
 	m_TheMap = theMap;
@@ -163,13 +163,11 @@ void GameControl::loop(Map* theMap)
 		}
 	}
 
-	playerDead();
-
-	cout << "Thanks for playing!" << endl;
-
+	 string answer = playerDead();
+	 return answer;
 }
 
-void GameControl::playerDead()
+string GameControl::playerDead()
 {
 	string answer;
 	cout << "Would you like to play again?(y/n): ";
@@ -177,11 +175,5 @@ void GameControl::playerDead()
 	
 	answer = toupper(answer[0]);
 
-	if (answer[0] == 'Y')
-	{
-		delete m_TheMap;
-		cout << "--------------------------------" << endl;
-		Map map;
-		loop(&map);
-	}
+	return answer;
 }

@@ -4,8 +4,8 @@ class GameControl
 {
 public:
 	void info();
-	void loop(Map* theMap);
-	void playerDead();
+	string loop(Map* theMap);
+	string playerDead();
 
 private:
 	bool gameOver;
