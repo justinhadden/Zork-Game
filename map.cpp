@@ -29,18 +29,18 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	m_AllItems.push_back(armor);
 
 	//Cave section with riddle room and treasure room
-	Room* caveEntrance = new Room("the entrance to a cave", "You are at the entrance to a cave.", "There is an old man with a long beard standing at the intrance.\nHe says the answer to the riddle will get you\nwhat you seek then throws a small note at you.");
+	Room* caveEntrance = new Room("the entrance to a cave", "You are at the entrance to a cave.", "There is an old man with a long beard standing at the entrance.\nHe says the answer to the riddle will get you\nwhat you seek then throws a small note at you.");
 	m_AllRooms.push_back(caveEntrance);
 	Item* riddleNote = new Item("RIDDLE", "NOTE", "A note with a riddle(riddle)", "note", 0, "I have lots to say but never speak, I open but you cannot\nwalk through me, I have a spine but no bones.");
 	m_AllItems.push_back(riddleNote);
 	Room* cave = new Room("a cave", "You are standing in the cave.", "There are a few items on the ground.\nThe riddle probably will tell you which item to pick up.\n\nThe knight looks like she chose the wrong item.\nBy that I mean she is very dead.\n", "Sitting on small collumns you see: ");
 	m_AllRooms.push_back(cave);
-	Item* book = new Item("BOOK", "CORRECT", "A book with weird symbols on the cover(book)");
-	m_AllItems.push_back(book);
 	Item* hourGlass = new Item("HOURGLASS", "DIE", "An hourglass dripping sand(hourglass)");
 	m_AllItems.push_back(hourGlass);
 	Item* skull = new Item("SKULL", "DIE", "A white skull with it's mouth agape(skull)");
 	m_AllItems.push_back(skull);
+	Item* book = new Item("BOOK", "CORRECT", "A book with weird symbols on the cover(book)");
+	m_AllItems.push_back(book);
 	Item* painting = new Item("PAINTING", "DIE", "A painting of an old women(painting)");
 	m_AllItems.push_back(painting);
 	Room* treasureRoom = new Room("a treasure room", "You are in the treasure room of the cave.", "There is a weapon stand holding an impressive looking battleaxe.", "In the cave you see: ", true, "BOOK");
@@ -140,9 +140,9 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	magicRoom->addItem(fireStaff);
 	magicRoom->addItem(healthPotion2);
 	caveEntrance->addItem(riddleNote);
-	cave->addItem(book);
-	cave->addItem(hourGlass);
 	cave->addItem(skull);
+	cave->addItem(hourGlass);
+	cave->addItem(book);
 	cave->addItem(painting);
 	treasureRoom->addItem(battleaxe);
 	canyonFloor->addItem(armor);
