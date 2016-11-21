@@ -16,8 +16,10 @@ public:
 	Item* getItem(string name);	
 	void look();
 	void getDesc();
-	string getAreaDesc();
+	string getAreaDesc(string addThis = "");
 	string getName(string addThis = "");
+	void flipBeenHere();
+	bool beenHere();
 
 	bool isLocked();
 	void lockUnlock();
@@ -38,4 +40,5 @@ private:
 	string m_ItemLoc;
 	bool m_Locked;
 	string m_LockType;
+	bool m_BeenHere = false;
 };

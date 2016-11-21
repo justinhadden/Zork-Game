@@ -246,7 +246,7 @@ void Player::equip()
 		cout << "What would you like to equip?: ";
 		cin >> theChoice;
 
-		for (int i = 0; i <= theChoice.length(); ++i)
+		for (unsigned int i = 0; i <= theChoice.length(); ++i)
 		{
 			theChoice[i] = toupper(theChoice[i]);
 		}
@@ -333,23 +333,6 @@ void Player::unequip(int choice)
 			m_EquipedArmor = 0;
 		}
 	}
-}
-
-void Player::showAttack()
-{
-	if (m_EquipedWeapon != 0)
-	{
-		cout << m_Attack * m_EquipedWeapon->getMod() << endl;
-	}
-	else
-	{
-		cout << m_Attack << endl;
-	}
-}
-
-void Player::showHealth()
-{
-	cout << m_health << endl;
 }
 
 void Player::damage(int damage)

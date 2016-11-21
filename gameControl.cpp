@@ -11,7 +11,7 @@ void GameControl::info()
 	cout << "'Equip' - equip weapon/armor" << endl;
 	cout << "'Character(c)' - get information about your character and inventory" << endl;
 	cout << "'Attack' - attack an enemy in the room" << endl;
-	cout << "'Use' - uses an item" << endl;
+	cout << "'Use' - uses an item/reads a note" << endl;
 	cout << "'Quit' - quits the game/allows a restart" << endl;
 }
 
@@ -20,19 +20,23 @@ string GameControl::loop(Map* theMap)
 	gameOver = false;
 	m_TheMap = theMap;
 	string theChoice;
-
+	
 	cout << "--------------------------------" << endl;
 	theMap->getPlayerLoc()->getDesc();
+	theMap->getPlayerLoc()->listEnemies();
+	theMap->getPlayerLoc()->inspect();
+	theMap->getPlayerLoc()->flipBeenHere();
 	cout << "--------------------------------" << endl;
 
 	while (!gameOver && m_TheMap->getPlayer()->getHealth() > 0)
 	{	
 		cin >> theChoice;
 
-		for (int i = 0; i < theChoice.length(); ++i)
-		{
-			theChoice[i] = toupper(theChoice[i]);
-		}
+		//I toupper the whole user input. I use this a lot
+		for (unsigned int i = 0; i < theChoice.length(); ++i)//Apparently .length() returns a size_t which is unsigned. 
+		{													 //Was told to set i to size_t but don't really understand what that is so just unsigned the int
+			theChoice[i] = toupper(theChoice[i]);			 //to make sure I can explain this.
+		}													 
 
 		if (theChoice == "HELP")
 		{
@@ -96,19 +100,13 @@ string GameControl::loop(Map* theMap)
 			theMap->getPlayer()->equip();
 			cout << "--------------------------------" << endl;
 		}
-		else if (theChoice == "SHOWATTACK")
-		{
-			cout << "--------------------------------" << endl;
-			theMap->getPlayer()->showAttack();
-			cout << "--------------------------------" << endl;
-		}
 		else if (theChoice == "UNEQUIP")
 		{
 			cout << "--------------------------------" << endl;
 			cout << "Remove armor or sheath weapon?(armor/weapon): ";
 			cin >> theChoice;
 
-			for (int i = 0; i < theChoice.length(); ++i)
+			for (unsigned int i = 0; i < theChoice.length(); ++i)
 			{
 				theChoice[i] = toupper(theChoice[i]);
 			}
@@ -143,12 +141,6 @@ string GameControl::loop(Map* theMap)
 			{
 				gameOver = true;
 			}
-			cout << "--------------------------------" << endl;
-		}
-		else if (theChoice == "SHOWHEALTH")
-		{
-			cout << "--------------------------------" << endl;
-			theMap->getPlayer()->showHealth();
 			cout << "--------------------------------" << endl;
 		}
 		else if (theChoice == "QUIT")

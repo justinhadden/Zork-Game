@@ -22,8 +22,9 @@ void Room::getDesc()
 	cout << m_Desc << endl;
 }
 
-string Room::getAreaDesc()
+string Room::getAreaDesc(string addThis)
 {
+	m_AreaDesc = addThis;
 	return m_AreaDesc;
 }
 
@@ -31,6 +32,16 @@ string Room::getName(string addThis)
 {
 	m_Name = m_Name + addThis;
 	return m_Name;
+}
+
+bool Room::beenHere()
+{
+	return m_BeenHere;
+}
+
+void Room::flipBeenHere()
+{
+	m_BeenHere = true;
 }
 
 void Room::lockUnlock()

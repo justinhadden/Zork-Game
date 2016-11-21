@@ -13,7 +13,6 @@ public:
 	string getName();
 
 	int getHealth();	
-	void showHealth();
 
 	//weapons
 	bool hasWeapon();
@@ -29,7 +28,6 @@ public:
 
 	//attack stuff
 	int getAttack();	
-	void showAttack();
 	void damage(int damage);
 	void attack();
 	int getAttackMod();

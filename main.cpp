@@ -6,10 +6,12 @@ int main()
 	cout << "A land where there are many ways to" << endl;
 	cout << "die and only a few ways to not die." << endl;
 	cout << "Will you be able to make it to the end?" << endl;
-	cout << "--------------------------------" << endl;
+	cout << "-------------------------------------" << endl;
+	cout << "\nRight-click the window and choose 'Properties' to change the\nfont size to be able to read the text easier\n" << endl;
+	cout << "-------------------------------------" << endl;
 	
 	cout << "Type 'help' for a list of options" << endl;
-	cout << "'help' is very usful for when\nyou don't know what to do" << endl;
+	cout << "'help' is very usful for when you\ndon't know what to do" << endl;
 	
 	GameControl gameCont;
 
@@ -18,7 +20,6 @@ int main()
 	{
 		Map map;
 		cout << "Good Luck, " << map.getName() << endl;
-		cout << "--------------------------------" << endl;
 		answer = gameCont.loop(&map);
 	}
 	
