@@ -17,7 +17,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	//second and third forest
 	Room* moreForest = new Room("a blood trail", "You travel deeper into the forest.", "You see a bloody trail heading south");
 	m_AllRooms.push_back(moreForest);
-	Room* southForest = new Room("a bloodtrail", "You and at the southern end of the forest.", "The forest seems to open up to the west and south.\nThe bloody trail heads west.");
+	Room* southForest = new Room("a bloodtrail", "You are at the southern end of the forest.", "The forest seems to open up to the west and south.\nThe bloody trail heads west.");
 	m_AllRooms.push_back(southForest);
 
 	//Canyon and canyon floor with armor
@@ -33,7 +33,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	m_AllRooms.push_back(caveEntrance);
 	Item* riddleNote = new Item("RIDDLE", "NOTE", "A note with a riddle(riddle)", "note", 0, "I have lots to say but never speak, I open but you cannot\nwalk through me, I have a spine but no bones.");
 	m_AllItems.push_back(riddleNote);
-	Room* cave = new Room("a cave", "You are standing in the cave.", "There are a few items on the ground.\nThe riddle probably will tell you which item to pick up.\nThe knight looks like she chose the wrong item.\nBy that I mean she is very dead.", "Sitting on small collumns you see: ");
+	Room* cave = new Room("a cave", "You are standing in the cave.", "There are a few items on the ground.\nThe riddle probably will tell you which item to pick up.\n\nThe knight looks like she chose the wrong item.\nBy that I mean she is very dead.\n", "Sitting on small collumns you see: ");
 	m_AllRooms.push_back(cave);
 	Item* book = new Item("BOOK", "CORRECT", "A book with weird symbols on the cover(book)");
 	m_AllItems.push_back(book);
