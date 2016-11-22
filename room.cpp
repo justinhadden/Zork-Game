@@ -1,6 +1,6 @@
 #include "room.h"
 
-Room::Room(const string& name, const string& desc, const string& area, const string& itemLoc, bool isLocked, string lockType)
+Room::Room(const string& name, const string& desc, const string& area, const string& itemLoc, bool isLocked, string lockType)//constructor for room class
 	: m_Name(name)
 	, m_Desc(desc)
 	, m_AreaDesc(area)
@@ -9,7 +9,7 @@ Room::Room(const string& name, const string& desc, const string& area, const str
 	, m_LockType(lockType)
 {}
 
-void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)
+void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)//Stores adjacent rooms
 {
 	m_AdjRooms[0] = north;
 	m_AdjRooms[1] = east;
@@ -17,34 +17,34 @@ void Room::setAdjRooms(Room* north, Room* east, Room* south, Room* west)
 	m_AdjRooms[3] = west;
 }
 
-void Room::getDesc()
+void Room::getDesc()//couts the desc
 {
 	cout << m_Desc << endl;
 }
 
-string Room::getAreaDesc(string addThis)
+string Room::getAreaDesc(string addThis)//Returns areadesc and has option to change areadesc
 {
 	m_AreaDesc = addThis;
 	return m_AreaDesc;
 }
 
-string Room::getName(string addThis)
+string Room::getName(string addThis)//Returns room name with option to add to it
 {
 	m_Name = m_Name + addThis;
 	return m_Name;
 }
 
-bool Room::beenHere()
+bool Room::beenHere()//Returns whether or not the player has been here before
 {
 	return m_BeenHere;
 }
 
-void Room::flipBeenHere()
+void Room::flipBeenHere()//Flips beenhere
 {
 	m_BeenHere = true;
 }
 
-void Room::lockUnlock()
+void Room::lockUnlock()//Lock or unlock a door. Currently we only unlock doors
 {
 	if (m_Locked)
 	{
@@ -56,27 +56,27 @@ void Room::lockUnlock()
 	}
 }
 
-bool Room::isLocked()
+bool Room::isLocked()//Returns if a room is locked
 {
 	return m_Locked;
 }
 
-string Room::getLockType()
+string Room::getLockType()//Returns the lock type
 {
 	return m_LockType;
 }
 
-void Room::addItem(Item* item)
+void Room::addItem(Item* item)//Add an item to a room
 {
 	m_Items.push_back(item);
 }
 
-void Room::addEnemy(Enemy* enemy)
+void Room::addEnemy(Enemy* enemy)//Add an enemy to the room
 {
 	m_Enemies.push_back(enemy);
 }
 
-bool Room::roomHasItems()
+bool Room::roomHasItems()//Checks if the room has items
 {
 	bool found = true;
 
@@ -88,12 +88,12 @@ bool Room::roomHasItems()
 	return found;
 }
 
-Room* Room::getAdjRooms(int index)
+Room* Room::getAdjRooms(int index)//Return the room selected by index
 {
 	return m_AdjRooms[index];
 }
 
-void Room::inspect()
+void Room::inspect()//prints the areadesc and a list of items in the room
 {
 	vector<Item*>::iterator iter;
 	cout << m_AreaDesc << endl;
@@ -111,7 +111,7 @@ void Room::inspect()
 	}
 }
 
-void Room::listEnemies()
+void Room::listEnemies()//lists the enemies in the room
 {
 	vector<Enemy*>::iterator iter;
 
@@ -125,7 +125,7 @@ void Room::listEnemies()
 	}
 }
 
-bool Room::hasEnemies()
+bool Room::hasEnemies()//Returns whethor or not there are enemies in the room
 {
 	if (m_Enemies.empty())
 	{
@@ -137,7 +137,7 @@ bool Room::hasEnemies()
 	}
 }
 
-bool Room::hasItem(string theChoice)
+bool Room::hasItem(string theChoice)//Checks the room for a specific item
 {
 	vector<Item*>::iterator iter;
 	bool found = false;
@@ -158,7 +158,7 @@ bool Room::hasItem(string theChoice)
 	return found;
 }
 
-void Room::look()
+void Room::look()//Look in each of the directions
 {
 	if (m_AdjRooms[0] != 0)
 	{
@@ -178,7 +178,7 @@ void Room::look()
 	}
 }
 
-Item* Room::getItem(string name)
+Item* Room::getItem(string name)//remove an item from the room
 {
 	vector<Item*>::iterator iter;
 	Item* item;
@@ -197,7 +197,7 @@ Item* Room::getItem(string name)
 	return item;
 }
 
-Enemy* Room::getEnemy(string thisOne)
+Enemy* Room::getEnemy(string thisOne)//remove an enemy from the room
 {
 	vector<Enemy*>::iterator iter;
 	Enemy* enemy = 0;
