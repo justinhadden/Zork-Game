@@ -21,7 +21,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	m_AllRooms.push_back(southForest);
 
 	//Canyon and canyon floor with armor
-	Room* canyon = new Room("a canyon", "You are standing at the edge of a steep canyon.", "It's a long way down the canyon but the rope should help.");
+	Room* canyon = new Room("a canyon", "You are standing at the edge of a steep canyon.", "It's a long way down the canyon but a rope would help.");
 	m_AllRooms.push_back(canyon);	
 	Room* canyonFloor = new Room("the canyon floor", "You made it to the bottom of the canyon.", "Looks like a knight might have fallen down this canyon.", "Amongst the rubble you see: ", true, "ROPE");
 	m_AllRooms.push_back(canyonFloor);
@@ -368,6 +368,7 @@ void Map::inspect()//Inspect gives information about room
 			answer = toupper(answer[0]);
 			if (answer[0] == 'Y')
 			{
+				cout << "--------------------------------" << endl;
 				cout << "You try to jump down the 200ft canyon \nlike an idiot and die because gravity." << endl;
 				m_pPlayer->damage(100);
 			}
