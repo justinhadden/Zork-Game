@@ -198,7 +198,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 
 Map::~Map()
 {
-	//Delee items/rooms/enemies from rooms and inventory
+	//Delete items/rooms/enemies from rooms and inventory
 	vector<Room*>::iterator iterRoom;
 	vector<Item*>::iterator iterItem;
 	vector<Enemy*>::iterator iterEnemy;
@@ -235,7 +235,7 @@ void Map::move(string theChoice)//moves player to room chosen
 		{
 			cout << "The way is locked" << endl;
 		}
-		else if (!m_pPlayerLoc->getAdjRooms(0)->beenHere())//If the pler hasn't been there
+		else if (!m_pPlayerLoc->getAdjRooms(0)->beenHere())//If the player hasn't been there
 		{
 			cout << "You walk north." << endl;
 			m_pPlayerLoc = m_pPlayerLoc->getAdjRooms(0);
@@ -485,11 +485,11 @@ void Map::use()//Use an item in the players inventory
 		Item* item = m_pPlayer->getItem(useThis);//Gets item from inventory
 		if (item->getType() == "KEY")//Decision structure for if the item is of type 'key'
 		{
-			if (m_pPlayerLoc->hasEnemies())//Don't allow unlocking doors with in the room
+			if (m_pPlayerLoc->hasEnemies())//Don't allow unlocking doors with enemies in the room
 			{
 				cout << "Can't unlock doors with enemies nearby." << endl;
 			}
-			else if (item->getName() == "ROPE")//structure for is the item is a rope
+			else if (item->getName() == "ROPE")//structure for if the item is a rope
 			{
 				if (m_pPlayerLoc->getName() == "a canyon")
 				{
