@@ -111,8 +111,18 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	//Magic room with ult weapon firestaff
 	Room* magicRoom = new Room("a Magical Barrier", "You are standing in a old magicians study. There is a portal westward.", "Looks like this place is definitely lived in.\nThe torches are still warm.", "On the wooden tables you see: ", true, "SCROLL");
 	m_AllRooms.push_back(magicRoom);
-	Item* fireStaff = new Item("FIRESTAFF", "WEAPON", "A staff of firebolts(firestaff)", "firestaff", 7);
-	m_AllItems.push_back(fireStaff);
+	Item* iceStaff = new Item("ICESTAFF", "WEAPON", "A staff of Iceshards(icestaff)", "icestaff", 7);
+	m_AllItems.push_back(iceStaff);
+	Item* shardPlate = new Item("SHARDPLATE", "ARMOR", "A glowing set of armor(shardplate)", "shardplate", 15);
+	m_AllItems.push_back(shardPlate);
+
+	//Ghost King room
+	Room* bossRoom = new Room("the King's quarters", "You are standing in a large room with burn marks on all of the walls.", "A lot of combat has happened in this room...  there are dead knights eerywhere.");
+	m_AllRooms.push_back(bossRoom);
+	Enemy* ghostKing = new Enemy("GHOSTKING", "A massive firebreathing ghostly version of the old king(king)", "ghost king", 500, 45);
+	m_AllEnemies.push_back(ghostKing);
+	Item* kingsAmulet = new Item("AMULET", "TREASURE", "The kings amulet(amulet)");
+	m_AllItems.push_back(kingsAmulet);
 
 	//The end
 	Room* space = new Room("A portal leading to the unknown", "You are in space. This is bad. Also the end.", "Seriously...    this is the end.\n\nGood job.\n");
@@ -125,6 +135,9 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	m_AllItems.push_back(healthPotion2);
 	Item* healthPotion3 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
 	m_AllItems.push_back(healthPotion3);
+	Item* healthPotion4 = new Item("REDPOTION", "HEALTH", "A red potion(redpotion)");
+	m_AllItems.push_back(healthPotion4);
+	
 	
 
 	//Adding items to rooms
@@ -137,7 +150,8 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	courtyard->addItem(sword);
 	hedgeMaze5->addItem(magicScroll);
 	hedgeMaze5->addItem(healthPotion1);
-	magicRoom->addItem(fireStaff);
+	magicRoom->addItem(iceStaff);
+	magicRoom->addItem(shardPlate);
 	magicRoom->addItem(healthPotion2);
 	caveEntrance->addItem(riddleNote);
 	cave->addItem(skull);
@@ -145,6 +159,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	cave->addItem(book);
 	cave->addItem(painting);
 	treasureRoom->addItem(battleaxe);
+	treasureRoom->addItem(healthPotion4);
 	canyonFloor->addItem(armor);
 
 	//Adding rewards for enemies
@@ -152,12 +167,14 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	goblin->setReward(gateKey);
 	skeleton->setReward(bag);
 	skeletonDog->setReward(healthPotion3);
+	ghostKing->setReward(kingsAmulet);
 
 	//Adding enemies to rooms
 	swamp->addEnemy(stump);
 	oldcabin->addEnemy(goblin);
 	castleHall->addEnemy(skeleton);
 	castleHall->addEnemy(skeletonDog);
+	bossRoom->addEnemy(ghostKing);
 
 	//Setting adjacent rooms for each room
 	field->setAdjRooms(mountain, forest, 0, 0);
@@ -175,7 +192,8 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	castleGates->setAdjRooms(courtyard, 0, swamp, oldcabin);
 	courtyard->setAdjRooms(castleHall, hedgeMaze1, castleGates, 0);
 	castleHall->setAdjRooms(0, 0, courtyard, magicRoom);
-	magicRoom->setAdjRooms(0, castleHall, 0, space);
+	magicRoom->setAdjRooms(0, castleHall, 0, bossRoom);
+	bossRoom->setAdjRooms(space, magicRoom, 0, 0);
 	space->setAdjRooms(0, 0, 0, 0);
 
 	//illogical case to make the hedgemaze confusing
@@ -690,14 +708,30 @@ void Map::attackEnemy()//Attack got pretty complicated. Need to look at this aga
 				else if (enemy->getHealth() > 0 && m_pPlayer->hasArmorEquiped())//Attack for if enemy still alive and player has armor
 				{
 					m_pPlayer->damage(enemy->getAttack());
-					cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() - m_pPlayer->getArmorMod() << " damage." << endl;
-					cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					if (enemy->getName() == "GHOSTKING")
+					{
+						cout << "The " << enemy->getShortDesc() << " breathes fire and does " << enemy->getAttack() - m_pPlayer->getArmorMod() << " damage." << endl;
+						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					}
+					else
+					{
+						cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() - m_pPlayer->getArmorMod() << " damage." << endl;
+						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					}
 				}
 				else if (enemy->getHealth() > 0)//Attack for if enemy still alive and player has NO armor
 				{
 					m_pPlayer->damage(enemy->getAttack());
-					cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() << " damage." << endl;
-					cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					if (enemy->getName() == "GHOSTKING")
+					{
+						cout << "The " << enemy->getShortDesc() << " breathes fire and does " << enemy->getAttack() << " damage." << endl;
+						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					}
+					else
+					{
+						cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() << " damage." << endl;
+						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					}
 				}
 				if (m_pPlayer->getHealth() <= 0)//After all attacks are done check if player is dead.
 				{

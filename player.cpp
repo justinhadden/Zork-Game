@@ -327,7 +327,7 @@ void Player::unequip(int choice)
 		}
 		else
 		{
-			cout << "You have removed your " << m_EquipedWeapon->getShortDesc() << endl;
+			cout << "You have removed your " << m_EquipedArmor->getShortDesc() << endl;
 			m_Inventory.push_back(m_EquipedArmor);
 			m_InvCount += 1;
 			m_EquipedArmor = 0;
