@@ -81,8 +81,6 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	m_AllRooms.push_back(courtyard);
 	Item* sword = new Item("SWORD", "WEAPON", "A magical sword(sword)", "magic sword", 6);
 	m_AllItems.push_back(sword);
-	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
-	m_AllItems.push_back(gold);
 
 	//Castle interior with two enemies 
 	Room* castleHall = new Room("a Throne Room", "You are standing in an abandoned throne room.", "This throne room doesn't look like it's in as\nbad of shape as the rest of the castle.");
@@ -109,7 +107,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	m_AllItems.push_back(magicScroll);
 
 	//Magic room with ult weapon firestaff
-	Room* magicRoom = new Room("a Magical Barrier", "You are standing in a old magicians study. There is a portal westward.", "Looks like this place is definitely lived in.\nThe torches are still warm.", "On the wooden tables you see: ", true, "SCROLL");
+	Room* magicRoom = new Room("a Magical Barrier", "You are standing in a old magicians study.", "Looks like this place is definitely lived in.\nThe torches are still warm.", "On the wooden tables you see: ", true, "SCROLL");
 	m_AllRooms.push_back(magicRoom);
 	Item* iceStaff = new Item("ICESTAFF", "WEAPON", "A staff of Iceshards(icestaff)", "icestaff", 7);
 	m_AllItems.push_back(iceStaff);
@@ -119,10 +117,20 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	//Ghost King room
 	Room* bossRoom = new Room("the King's quarters", "You are standing in a large room with burn marks on all of the walls.", "A lot of combat has happened in this room...  there are dead knights eerywhere.");
 	m_AllRooms.push_back(bossRoom);
-	Enemy* ghostKing = new Enemy("GHOSTKING", "A massive firebreathing ghostly version of the old king(king)", "ghost king", 500, 45);
+	Enemy* ghostKing = new Enemy("KING", "A massive firebreathing ghostly version of the old king(king)", "ghost king", 500, 45);
 	m_AllEnemies.push_back(ghostKing);
-	Item* kingsAmulet = new Item("AMULET", "TREASURE", "The kings amulet(amulet)");
+	Item* kingsAmulet = new Item("AMULET", "KEY", "The kings amulet(amulet)");
 	m_AllItems.push_back(kingsAmulet);
+
+	//Ghost King Treasure room
+	Room* kingTreasure = new Room("The King's treasure room", "Your are standing in the King's treasure room.", "This room has many treasure chests and assorted golden items all over the place.", "In the treasure chests you see: ", true, "AMULET");
+	m_AllRooms.push_back(kingTreasure);
+	Item* goldenChalice = new Item("CHALICE", "TREASURE", "A golden chalice(chalice)");
+	m_AllItems.push_back(goldenChalice);
+	Item* gold = new Item("GOLD", "TREASURE", "A gold bar!(gold)");
+	m_AllItems.push_back(gold);
+	Item* goldenRocket = new Item("ROCKET", "WEAPON", "The Golden Rocket Lancher!(rocket)", "golden rocket launcher", 20);
+	m_AllItems.push_back(goldenRocket);
 
 	//The end
 	Room* space = new Room("A portal leading to the unknown", "You are in space. This is bad. Also the end.", "Seriously...    this is the end.\n\nGood job.\n");
@@ -146,7 +154,6 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	mountain->addItem(rock);
 	mountain->addItem(pickaxe);
 	swamp->addItem(mudball);
-	courtyard->addItem(gold);
 	courtyard->addItem(sword);
 	hedgeMaze5->addItem(magicScroll);
 	hedgeMaze5->addItem(healthPotion1);
@@ -161,6 +168,9 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	treasureRoom->addItem(battleaxe);
 	treasureRoom->addItem(healthPotion4);
 	canyonFloor->addItem(armor);
+	kingTreasure->addItem(gold);
+	kingTreasure->addItem(goldenChalice);
+	kingTreasure->addItem(goldenRocket);
 
 	//Adding rewards for enemies
 	stump->setReward(rope);
@@ -193,7 +203,8 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 	courtyard->setAdjRooms(castleHall, hedgeMaze1, castleGates, 0);
 	castleHall->setAdjRooms(0, 0, courtyard, magicRoom);
 	magicRoom->setAdjRooms(0, castleHall, 0, bossRoom);
-	bossRoom->setAdjRooms(space, magicRoom, 0, 0);
+	bossRoom->setAdjRooms(kingTreasure, magicRoom, 0, 0);
+	kingTreasure->setAdjRooms(0, space, bossRoom, 0);
 	space->setAdjRooms(0, 0, 0, 0);
 
 	//illogical case to make the hedgemaze confusing
@@ -212,6 +223,7 @@ Map::Map()//The Map constructor builds the rooms/items/enemies as well as places
 
 	m_pPlayerLoc = field;
 	m_pPlayer = player;
+
 }
 
 Map::~Map()

@@ -245,19 +245,27 @@ void Player::equip()
 		string theChoice;
 		cout << "What would you like to equip?: ";
 		cin >> theChoice;
+		int maxInv = m_MaxInv;
 
 		for (unsigned int i = 0; i <= theChoice.length(); ++i)
 		{
 			theChoice[i] = toupper(theChoice[i]);
 		}
+
 		bool foundItem = hasItem(theChoice);
-		if (foundItem)
+
+		if (foundItem && hasWeaponEquiped() && theChoice == m_EquipedWeapon->getName() || foundItem && hasArmorEquiped() && theChoice == m_EquipedArmor->getName())
+		{
+			cout << "That is already equiped." << endl;
+		}
+		else if (foundItem)
 		{
 			vector<Item*>::iterator iter;
 			if (getItem(theChoice)->getType() == "WEAPON")
-			{			
+			{		
 				if (hasWeaponEquiped())
 				{
+					m_MaxInv += 1;
 					unequip(1);
 				}
 				for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
@@ -268,6 +276,7 @@ void Player::equip()
 						m_Inventory.erase(iter);
 						cout << m_EquipedWeapon->getDesc() << " has been equiped." << endl;
 						m_InvCount -= 1;
+						m_MaxInv = maxInv;
 						break;
 					}
 				}
@@ -276,6 +285,7 @@ void Player::equip()
 			{
 				if (hasArmorEquiped())
 				{
+					m_MaxInv += 1;
 					unequip(0);
 				}
 				for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
@@ -286,6 +296,7 @@ void Player::equip()
 						m_Inventory.erase(iter);
 						cout << m_EquipedArmor->getDesc() << " has been equiped." << endl;
 						m_InvCount -= 1;
+						m_MaxInv = maxInv;
 						break;
 					}
 				}
