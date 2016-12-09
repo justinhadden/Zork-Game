@@ -7,13 +7,13 @@ Player::Player(string name)
 	, m_InvCount(0)
 {}
 
-void Player::pick(Item* theChoice)
+void Player::pick(Item* theChoice)//Pick up item then tell user
 {
 	m_Inventory.push_back(theChoice);
 	cout << "Picked up " << theChoice->getDesc() << endl;
 }
 
-void Player::lookInv()
+void Player::lookInv()//show inventory and character information
 {
 	vector<Item*>::iterator iter;
 	if (m_Inventory.begin() == m_Inventory.end())
@@ -52,7 +52,7 @@ void Player::lookInv()
 	cout << "Inventory Slots: " << m_MaxInv << endl;
 }
 
-bool Player::hasItem(string theChoice)
+bool Player::hasItem(string theChoice)//Check if player has item chosen
 {
 	vector<Item*>::iterator iter;
 	bool found = false;
@@ -86,28 +86,7 @@ bool Player::hasItem(string theChoice)
 	return found;
 }
 
-bool Player::use(string useThis)
-{
-	vector<Item*>::iterator iter;
-	bool found = true;
-
-	for (iter = m_Inventory.begin(); iter != m_Inventory.end(); ++iter)
-	{
-		if ((*iter)->getName() == useThis)
-		{
-			found = true;
-		}
-	}
-
-	if (!found)
-	{
-		cout << "You don't have that item." << endl;
-	}
-
-	return found;
-}
-
-Item* Player::dropItem(string dropThis)
+Item* Player::dropItem(string dropThis)//drop item from inventory or equiped item
 {
 	vector<Item*>::iterator iter;
 	Item* item;
@@ -132,7 +111,7 @@ Item* Player::dropItem(string dropThis)
 	return item;
 }
 
-Item* Player::getItem(string getThis)
+Item* Player::getItem(string getThis)//Copy Item from inventory
 {
 	vector<Item*>::iterator iter;
 	Item* item;
@@ -177,7 +156,7 @@ void Player::setMaxInv(int set)
 	m_MaxInv += set;
 }
 
-bool Player::hasWeapon()
+bool Player::hasWeapon()//Checks for weapon in inventory
 {
 	bool hasWeapon = false;
 
@@ -193,7 +172,7 @@ bool Player::hasWeapon()
 	return hasWeapon;
 }
 
-bool Player::hasArmor()
+bool Player::hasArmor()//Checks for armor in inventory
 {
 	bool hasArmor = false;
 
@@ -209,7 +188,7 @@ bool Player::hasArmor()
 	return hasArmor;
 }
 
-bool Player::hasWeaponEquiped()
+bool Player::hasWeaponEquiped()//Checks if weapon is equiped
 {
 	if (m_EquipedWeapon == 0)
 	{
