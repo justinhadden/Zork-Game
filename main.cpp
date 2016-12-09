@@ -1,3 +1,8 @@
+/*
+Programmer: Justin Hadden
+Assignment: Final Project
+*/
+
 #include "gameControl.h"
 
 int main()

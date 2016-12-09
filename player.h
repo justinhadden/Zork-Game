@@ -5,7 +5,6 @@ class Player
 public:
 	Player(string name = "");
 	void pick(Item* takeThis);	
-	bool use(string useThis);
 	bool hasItem(string haveThis);
 	Item* dropItem(string dropThis);
 	Item* getItem(string getThis);

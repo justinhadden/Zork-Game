@@ -200,7 +200,7 @@ bool Player::hasWeaponEquiped()//Checks if weapon is equiped
 	}
 }
 
-bool Player::hasArmorEquiped()
+bool Player::hasArmorEquiped()//Checks if armor equiped
 {
 	if (m_EquipedArmor == 0)
 	{
@@ -217,9 +217,9 @@ void Player::stashThis(Item* item)
 	m_Inventory.push_back(item);
 }
 
-void Player::equip()
+void Player::equip()//Equip armor or weapon
 {
-	if (hasWeapon() || hasArmor())
+	if (hasWeapon() || hasArmor())//Make sure player has it
 	{
 		string theChoice;
 		cout << "What would you like to equip?: ";
@@ -231,16 +231,17 @@ void Player::equip()
 			theChoice[i] = toupper(theChoice[i]);
 		}
 
-		bool foundItem = hasItem(theChoice);
+		bool foundItem = hasItem(theChoice);//Make sure player has chosen item
 
+		//check if it's already equiped
 		if (foundItem && hasWeaponEquiped() && theChoice == m_EquipedWeapon->getName() || foundItem && hasArmorEquiped() && theChoice == m_EquipedArmor->getName())
 		{
 			cout << "That is already equiped." << endl;
 		}
-		else if (foundItem)
+		else if (foundItem)//equip item
 		{
 			vector<Item*>::iterator iter;
-			if (getItem(theChoice)->getType() == "WEAPON")
+			if (getItem(theChoice)->getType() == "WEAPON")//if it's a weapon
 			{		
 				if (hasWeaponEquiped())
 				{
@@ -260,7 +261,7 @@ void Player::equip()
 					}
 				}
 			}
-			else if (getItem(theChoice)->getType() == "ARMOR")
+			else if (getItem(theChoice)->getType() == "ARMOR")//If it's armor
 			{
 				if (hasArmorEquiped())
 				{
@@ -293,7 +294,7 @@ void Player::equip()
 	}
 }
 
-void Player::unequip(int choice)
+void Player::unequip(int choice)//unequip weapon or armor
 {
 	if (choice == 1)
 	{
@@ -325,7 +326,7 @@ void Player::unequip(int choice)
 	}
 }
 
-void Player::damage(int damage)
+void Player::damage(int damage)//damage/heal player
 {
 	if (damage > 0)
 	{
@@ -365,7 +366,7 @@ int Player::getArmorMod()
 	return m_EquipedArmor->getMod();
 }
 
-void Player::attack()
+void Player::attack()//attack for when there is nothing to attack
 {
 	string attackWep;
 	if (m_EquipedWeapon == 0)

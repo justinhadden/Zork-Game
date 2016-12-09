@@ -161,6 +161,7 @@ string GameControl::loop(Map* theMap)
 
 string GameControl::playerDead()
 {
+
 	string answer;
 	cout << "Would you like to play again?(y/n): ";
 	cin >> answer;

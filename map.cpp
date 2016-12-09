@@ -404,7 +404,7 @@ void Map::inspect()//Inspect gives information about room
 			}
 			else
 			{
-				cout << "Wussy." << endl;
+				cout << "Wussy." << endl;//Insult player...      risky.
 			}
 		}
 		else
@@ -647,13 +647,13 @@ void Map::use()//Use an item in the players inventory
 				}
 			}
 		}
-		else if (item->getType() == "HEALTH")//If item being used is a health item
+		else if (item->getType() == "HEALTH")//If item is of type 'health'
 		{
 			cout << "You feel rejuvenated!" << endl;
 			m_pPlayer->damage(-100);
 			item = m_pPlayer->dropItem(useThis);
 		}
-		else if (item->getType() == "NOTE")//If item is of type note
+		else if (item->getType() == "NOTE")//If item is of type 'note'
 		{
 			cout << "The " << item->getShortDesc() << " reads: " << endl;
 			cout << item->getScribe() << endl;
@@ -685,7 +685,7 @@ void Map::attackEnemy()//Attack got pretty complicated. Need to look at this aga
 	{
 		thisOne[i] = toupper(thisOne[i]);
 	}
-	Enemy* enemy = m_pPlayerLoc->getEnemy(thisOne);//Get enemy returns 0 if the enemy choosen doesn't exist or actually removes enemy from room is it does.
+	Enemy* enemy = m_pPlayerLoc->getEnemy(thisOne);//getEnemy() returns 0 if the enemy choosen doesn't exist or actually removes enemy from room if it does.
 	
 	if (enemy != 0)//If the enemy you chose to attack exists
 	{
@@ -700,18 +700,20 @@ void Map::attackEnemy()//Attack got pretty complicated. Need to look at this aga
 			int attackMod = 1;//Attack mod defaults to nothing
 			while (answer[0] != 'N')
 			{
-				if (m_pPlayer->hasWeaponEquiped())//If player has a weapon equipped the set attack mod
+				if (m_pPlayer->hasWeaponEquiped())//If player has a weapon equipped then set attack mod
 				{
 					attackMod = m_pPlayer->getAttackMod();
 				}
 				enemy->damage(attack * attackMod);//Actual damage being done
 
 				cout << "You attack the " << enemy->getShortDesc() << " for " << attack * attackMod << " damage." << endl;//Tell player what happened
-				if (!m_pPlayer->hasWeaponEquiped() && !m_pPlayer->hasArmorEquiped())//If player didn't have weapon punish player
+				if (!m_pPlayer->hasWeaponEquiped() && !m_pPlayer->hasArmorEquiped())//If player didn't have weapon...      punish player
 				{
 					cout << "You hurt your fists" << endl;
 					m_pPlayer->damage(5);
 					cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+					cout << "Your enemy has " << enemy->getHealth() << " health left." << endl;
+
 				}
 				if (enemy->getAttack() == 0)//As of 11/21/2016 only the stump uses this
 				{
@@ -724,11 +726,13 @@ void Map::attackEnemy()//Attack got pretty complicated. Need to look at this aga
 					{
 						cout << "The " << enemy->getShortDesc() << " breathes fire and does " << enemy->getAttack() - m_pPlayer->getArmorMod() << " damage." << endl;
 						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+						cout << "Your enemy has " << enemy->getHealth() << " health left." << endl;
 					}
 					else
 					{
 						cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() - m_pPlayer->getArmorMod() << " damage." << endl;
 						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+						cout << "Your enemy has " << enemy->getHealth() << " health left." << endl;
 					}
 				}
 				else if (enemy->getHealth() > 0)//Attack for if enemy still alive and player has NO armor
@@ -738,11 +742,13 @@ void Map::attackEnemy()//Attack got pretty complicated. Need to look at this aga
 					{
 						cout << "The " << enemy->getShortDesc() << " breathes fire and does " << enemy->getAttack() << " damage." << endl;
 						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+						cout << "Your enemy has " << enemy->getHealth() << " health left." << endl;
 					}
 					else
 					{
 						cout << "The " << enemy->getShortDesc() << " hit you for " << enemy->getAttack() << " damage." << endl;
 						cout << "You have " << m_pPlayer->getHealth() << " health left." << endl;
+						cout << "Your enemy has " << enemy->getHealth() << " health left." << endl;
 					}
 				}
 				if (m_pPlayer->getHealth() <= 0)//After all attacks are done check if player is dead.
@@ -763,14 +769,14 @@ void Map::attackEnemy()//Attack got pretty complicated. Need to look at this aga
 				}
 			}
 		}
-		else if (answer == "X" || answer == "x")//Cheats!!!
+		else if (answer == "X" || answer == "x")//Cheats!!!         ...ssshhhh
 		{
-			cout << "You fucked that guy. He's dead now." << endl;
+			cout << "Your god like gaze has turned your enemy to dust. He's dead now." << endl;
 			enemy->damage(10000);
 		}
-		else if (answer == "n" || answer == "N")//Insult for not fighting
+		else if (answer == "n" || answer == "N")
 		{
-			cout << "Wussy" << endl;
+			cout << "Wussy" << endl;//Insult player...     I really like this part of programming
 		}
 		else
 		{
